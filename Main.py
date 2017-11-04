@@ -5,49 +5,49 @@ class Map():
     def __init__(self):
         self.G = nx.DiGraph()  # directed graph
 
-    def add_building(self, Name: str, Address: str, MailCode: int):
+    def add_building(self, Name: str, Address: str, MailCode: int):  # add a building as a node to the graph
         # use mail code as key
         self.G.add_node(MailCode, name=Name, addr=Address, flag=0)  # flag=0 means this node is a building
 
-    def add_buildings(self, L: list):
+    def add_buildings(self, L: list):  # add a list of buildings
         for x in L:
             self.add_building(x[0], x[1], x[2])
 
-    def add_intersection(self, Name: str):
+    def add_intersection(self, Name: str): # add a intersection as a node to the graph
         self.G.add_node(Name, flag=1)  # flag=1 means this node is an intersection
 
-    def add_intersections(self, L: list):
+    def add_intersections(self, L: list):  # add a list of intersections
         for x in L:
             self.add_intersection(x)
 
-    def add_entry(self, Name: str):
-        self.G.add_node(Name, flag=2)  # flag=2 means this node is an etry to a building
+    def add_entry(self, Name: str):  # add an entry as a node to the graph
+        self.G.add_node(Name, flag=2)  # flag=2 means this node is an entry to a building
 
-    def add_entries(self, L: list):
+    def add_entries(self, L: list):  # add a list of entries
         for x in L:
             self.add_entry(x)
 
-    def add_diEdge(self, From: str, To: str, Name: str, Distance: int, Direction: str):  # add directed edge
+    def add_diEdge(self, From: str, To: str, Name: str, Distance: int, Direction: str):  # add directed edge to the graph
         self.G.add_edge(From, To, name=Name, dis=Distance, dir=Direction)
 
-    def add_diEdges(self, L: list):  # directed
+    def add_diEdges(self, L: list):  # add a list of directed edges
         for x in L:
             self.add_diEdge(x[0], x[1], x[2], x[3], x[4])
 
     def add_undiEdge(self, From: str, To: str, Name: str, Distance: int, Direction1: str,
-                     Direction2: str):  # add an undireted edge
+                     Direction2: str):  # add an undireted edge to the graph
         self.G.add_edge(From, To, name=Name, dis=Distance, dir=Direction1)
         self.G.add_edge(To, From, name=Name, dis=Distance, dir=Direction2)
 
-    def add_undiEdges(self, L: list):  # add undireted edges from a list
+    def add_undiEdges(self, L: list):  # add a list of undireted edges
         for x in L:
             self.add_undiEdge(x[0], x[1], x[2], x[3], x[4], x[5])
 
-    def add_entryPath(self, From: str, To: int, Distance: int):  # undirected path from an entry to a building
+    def add_entryPath(self, From: str, To: int, Distance: int):  # add a undirected path from an entry to a building
         self.G.add_edge(From, To, dis=Distance)
         self.G.add_edge(To, From, dis=Distance)
 
-    def add_entryPaths(self, L: list):
+    def add_entryPaths(self, L: list):  # add a list of entry path
         for x in L:
             self.add_entryPath(x[0], x[1], x[2])
 
@@ -124,6 +124,7 @@ def main():
         ('to English Building on Wright', 718, 50),
         ('to Lincoln Hall on Wright', 456, 50)
     ]
+
     M.add_buildings(Buildings)
     M.add_intersections(Intersections)
     M.add_entries(Entries)
