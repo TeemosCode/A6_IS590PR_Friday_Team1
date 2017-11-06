@@ -35,15 +35,15 @@ class Map():
             self.add_diEdge(x[0], x[1], x[2], x[3], x[4])
 
     def add_undiEdge(self, From: str, To: str, Name: str, Distance: int, Direction1: str,
-                     Direction2: str):  # add an undireted edge to the graph
+                     Direction2: str):  # add an undirected edge to the graph
         self.G.add_edge(From, To, name=Name, dis=Distance, dir=Direction1)
         self.G.add_edge(To, From, name=Name, dis=Distance, dir=Direction2)
 
-    def add_undiEdges(self, L: list):  # add a list of undireted edges
+    def add_undiEdges(self, L: list):  # add a list of undirected edges
         for x in L:
             self.add_undiEdge(x[0], x[1], x[2], x[3], x[4], x[5])
 
-    def add_entryPath(self, From: str, To: int, Distance: int):  # add a undirected path from an entry to a building
+    def add_entryPath(self, From: str, To: int, Distance: int):  # add an undirected path from an entry to a building
         self.G.add_edge(From, To, dis=Distance)
         self.G.add_edge(To, From, dis=Distance)
 
@@ -91,10 +91,21 @@ def main():
     # M.cal_path('BuildA', 'BuildC')
 
     Buildings = [  # information of buildings - name, address, mail code
-        ('Foreign Languages Building', '707 S. Matthews Ave.', 164),
+        ('School of Information Sciences', '501 E. Daniel St.', 493),
+        ('Illini Union BookStore', '807 S. Wright St.', 312),
+        ('Altgeld Hall', '1409 W. Green St.', 382),
+        ('Illini Union', '1401 W. Green St.', 384),
+        ('Henry Administration Building', '506 S. Wright St.', 339),
+        ('English Building', '608 S. Wright St.', 718),
         ('Lincoln Hall', '702 S. Wright St.', 456),
-        ('Enlish Building', '608 S. Wright St.', 718),
-        ('Armory','505 E. Armory St.',532)
+        ('Gregory Hall', '810 S. Wright St.', 462),
+        ('Main Library', '1408 W. Gregory Dr.', 522),
+        ('Institute For Genomic Biology', '1206 W. Gregory Dr.', 195),
+        ('Smith Memorial Hall (Music)', '805 S. Matthews Ave.', 56),
+        ('Foreign Languages Building', '707 S. Matthews Ave.', 166),
+        ('Davenport Hall', '607 S. Matthews Ave.', 148),
+        ('UI Ice Arena', '406 E. Armory Ave.', 525),
+        ('Armory','505 E. Armory Ave.', 528)
     ]
 
     Intersections = [  # names of the intersection
