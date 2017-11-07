@@ -139,10 +139,25 @@ def main():
     ]
 
     Entries = [  # names of the entries
-        'to Foreign Languages Building on Mathews',
-        'to Lincoln Hall on Wright',
+        'to School of Information Sciences on Daniel',
+        'to UI Ice Arena on Armory',
+        'to Armory on Armory',
+        'to Armory on Gregory',
+        'to Illini Union BookStore on Daniel',
+        'to Illini Union BookStore on Wright',
+        'to Altgeld Hall on Wright',
+        'to Altgeld Hall on Green',
+        'to Illini Union on Green',
+        'to Henry Administration Building on Wright',
         'to English Building on Wright',
-        'to xxxbuilding on xxxroad'
+        'to Lincoln Hall on Wright',
+        'to Gregory Hall on Wright',
+        'to Main Library on Armory',
+        'to Main Library on Gregory',
+        'to Davenport Hall on Mathews',
+        'to Foreign Languages Building on Mathews',
+        'to Smith Memorial Hall(Music) on Mathews',
+        'to Institute For Genomic Biology on Goodwin'
     ]
 
     DiEdges = [  # directed edges - From, To, Name, Distance, Direction
