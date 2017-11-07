@@ -109,9 +109,33 @@ def main():
     ]
 
     Intersections = [  # names of the intersection
-        'Chalmers & Wright',
+        'John & 4th',
+        'John & 5th',
+        'John & 6th',
+        'John & Wright',
+        'Daniel & 4th',
+        'Daniel & 5th',
+        'Daniel & 6th',
         'Daniel & Wright',
-        'Armory & Wright'
+        'Chalmers & 4th',
+        'Chalmers & 5th',
+        'Chalmers & 6th',
+        'Chalmers & Wright',
+        'Armory & 4th',
+        'Armory & 5th',
+        'Armory & 6th',
+        'Armory & Wright',
+        'Gregory & 4th',
+        'Gregory & 6th',
+        'Green & Wright',
+        'Green & Mathews',
+        'Green & Goodvin',
+        'Oregon & Mathews',
+        'Oregon & Goodwin',
+        'Nevada & Mathews',
+        'Nevada & Goodwin',
+        'Gregory & Goodwin'
+        # 'Gregory & Dorner' Do not need this intersection
     ]
 
     Entries = [  # names of the entries
