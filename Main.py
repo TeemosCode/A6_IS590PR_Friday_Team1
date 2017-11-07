@@ -261,7 +261,9 @@ def main():
 
     EntryPaths = [  # undirected path - name of the entry to building, mail code of the building, distance
         ('to English Building on Wright', 718, 50),
+        ('to Lincoln Hall on Wright', 456, 50),
         ('to Lincoln Hall on Wright', 456, 50)
+
     ]
 
     M.add_buildings(Buildings)
