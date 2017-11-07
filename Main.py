@@ -260,9 +260,25 @@ def main():
     ]
 
     EntryPaths = [  # undirected path - name of the entry to building, mail code of the building, distance
-        ('to English Building on Wright', 718, 50),
-        ('to Lincoln Hall on Wright', 456, 50),
-        ('to Lincoln Hall on Wright', 456, 50)
+        ('to School of Information Sciences on Daniel', 493, 15),
+        ('to UI Ice Arena on Armory', 525, 10),
+        ('to Armory on Armory', 528, 40),
+        ('to Armory on Gregory', 528, 40),
+        ('to Illini Union BookStore on Daniel', 312, 5),
+        ('to Illini Union BookStore on Wright', 312, 5),
+        ('to Altgeld Hall on Wright', 382, 15),
+        ('to Altgeld Hall on Green', 382, 100),
+        ('to Illini Union on Green', 384, 70),
+        ('to Henry Administration Building on Wright', 339, 20),
+        ('to English Building on Wright', 718, 20),
+        ('to Lincoln Hall on Wright', 456, 20),
+        ('to Gregory Hall on Wright', 462, 20),
+        ('to Main Library on Armory', 522, 15),
+        ('to Main Library on Gregory', 522, 10),
+        ('to Davenport Hall on Mathews', 148, 20),
+        ('to Foreign Languages Building on Mathews', 166, 15),
+        ('to Smith Memorial Hall (Music) on Mathews', 56, 25),
+        ('to Institute For Genomic Biology on Goodwin', 195, 35)
 
     ]
 
