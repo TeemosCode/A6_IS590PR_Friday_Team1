@@ -255,7 +255,12 @@ def main():
 
         ('Nevada & Goodwin', 'Gregory & Goodwin', 'S. Goodwin Ave.', 200, 'North', 'South'),  # Entry to IGB
         ('Nevada & Goodwin', 'to Institute For Genomic Biology on Goodwin', 'S. Goodwin Ave.', 150, 'North', 'South'),
-        ('to Institute For Genomic Biology on Goodwin', 'Gregory & Goodwin', 'S. Goodwin Ave.', 50, 'North', 'South')
+        ('to Institute For Genomic Biology on Goodwin', 'Gregory & Goodwin', 'S. Goodwin Ave.', 50, 'North', 'South'),
+
+        # Since Intersections coincide with Entry Edges, the distance is equal to 0
+        ('Armory & 5th', 'to Armory on Armory', 'S. 5th St.', 0, 'North', 'South'),  # Entry to Armory on Armory
+        ('Armory & Wright', 'to Main Library on Armory', 'S. Wright St.', 0, 'North', 'South'),  # Entry to Main Library on Armory
+        ('Armory & Wright', 'to Gregory Hall on Wright', 'E. Armory Ave.', 0, 'East', 'West')  # Entry to Gregory Hall on Wright
 
     ]
 
