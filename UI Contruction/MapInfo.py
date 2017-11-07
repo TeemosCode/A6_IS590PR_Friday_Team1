@@ -172,6 +172,9 @@ class MapInfo:
         ('to English Building on Wright', 718, 50),
         ('to Lincoln Hall on Wright', 456, 50)
     ]
+
+    # all items for checking
+    items = [Buildings, Intersections, Entries, DiEdges, UndiEdges, EntryPaths]
 # map = MapInfo()
 # print(map.Buildings)
 
