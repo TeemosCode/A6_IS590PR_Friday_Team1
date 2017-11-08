@@ -264,6 +264,7 @@ def main():
         ('to Lincoln Hall on Wright', 456, 50)
     ]
 
+if __name__ == "__main__":
     M.add_buildings(Buildings)
     M.add_intersections(Intersections)
     M.add_entries(Entries)
@@ -276,4 +277,4 @@ def main():
     M.cal_path(456, 718)
 
 
-main()
+    main()
