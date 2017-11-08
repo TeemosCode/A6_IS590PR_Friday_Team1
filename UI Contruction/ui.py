@@ -50,6 +50,7 @@ def menu(main_menu):
 	if not main_menu:
 		print(
 		"""
+      =========================== Navigation Mode ============================
  Choose the corresponding NUMBER of TWO buildings where you would like to navigate between.
  You will be asked to choose the number of the building two times.
  First time will be the starting building of where you want to start.
@@ -73,11 +74,12 @@ def menu(main_menu):
 16: ["End Navigation Mode"]
 		""")
 
-def Input_check_for_dummies(main_menu: int) -> str:
+def Input_check_for_dummies(main_menu: int, decision = 0) -> str:
 	"""
 	The fucntion that takes in user inputs and validates the input, outputs the validated input
 
 	:param main_menu: 0 or 1 to indicate which menu the program is currently desplaying
+	:param decision: default to 0, used to grab the strings in the list variable 'keyword' for different promt message
 	:return user_input: The string type of the valid user input
 	"""
 	# check to see which menu is currently on display to change the valid choices coreespondingly
@@ -85,10 +87,9 @@ def Input_check_for_dummies(main_menu: int) -> str:
 		choices = [str(n) for n in range(1,6)]
 		question_str = "Enter your Choice: ==>  " # guide for users in different modes
 	else:
-		################## how to interchange the keyword questions??????
 		choices = [str(n) for n in range(1, len(MI.Buildings) + 2)]
 		keyword = ["Enter your STARTING position: ==> ", "Enter your DESTINATION: ==> "]
-		question_str = "Enter your STARTING position: ==> "
+		question_str = keyword[decision]
 
 	user_input = input(question_str)
 
@@ -105,8 +106,9 @@ def myprint():
 	print("Hi its working")
 func_dict_main = {
 	"1": navi.print_buildings,
-	"2": navi.print_paths, # provisional functions to be later coded into the main.py to list out all paths
-	"3": navi.print_entries, # provisional functions to be later coded into the main.py to list out entries
+	# Currently use myprint test function to keep the program from crashing before the functions are finished and tested!!####
+	"2": myprint, # navi.print_paths, # provisional functions to be later coded into the main.py to list out all paths
+	"3": myprint, # navi.print_entries, # provisional functions to be later coded into the main.py to list out entries
 	"4": myprint
 }
 
@@ -148,10 +150,11 @@ def main():
 	main_menu = 1
 	while True:
 		# if user chooses for navigation mode, Navigavtion program
+
+		## May move this into the naviGrapher_funcs function for more readability and generalization
 		while not main_menu:
 			menu(main_menu)
 			user_Start = Input_check_for_dummies(main_menu)
-
 			if user_Start == "16":
 				print("Aborting Navigation ....\n")
 				main_menu = 1
@@ -159,21 +162,19 @@ def main():
 			start = choice_mail_building[user_Start][1] # get the mail code in our dictionary
 
 
-			user_Destination = Input_check_for_dummies(main_menu)
-
+			user_Destination = Input_check_for_dummies(main_menu, 1) # Changes the prompt string with the second parameter
 			if user_Destination == "16":
 				print("Aborting Navigation ....\n")
 				main_menu = 1
 				break
 			end = choice_mail_building[user_Destination][1]
 
-
+			print("\n")
 			print('=====================Starting Navigation=======================')
-			print("\n")
-
 			navi.cal_path(start, end)
-			print("\n")
 
+			print("======================End Of Navigation========================")
+			print("\n")
 
 
 
