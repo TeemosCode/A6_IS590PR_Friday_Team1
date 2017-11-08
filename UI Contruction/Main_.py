@@ -326,4 +326,3 @@ def main():
     M.cal_path(493,525)  # wrong direction
 
 main()
-
