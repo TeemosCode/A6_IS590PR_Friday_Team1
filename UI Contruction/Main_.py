@@ -74,7 +74,7 @@ class Map():
             print("Proceed until you arrive at " + End)
 
 
-def main():
+if __name__ == "__main__":
     M = Map()
     # test
     # M.add_building('BuildA', 'addr Build A', 111)
@@ -264,7 +264,7 @@ def main():
         ('to Lincoln Hall on Wright', 456, 50)
     ]
 
-if __name__ == "__main__":
+
     M.add_buildings(Buildings)
     M.add_intersections(Intersections)
     M.add_entries(Entries)
@@ -276,5 +276,3 @@ if __name__ == "__main__":
     M.print_buildings()
     M.cal_path(456, 718)
 
-
-    main()
