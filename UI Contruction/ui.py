@@ -1,17 +1,11 @@
 import MapInfo as mp
 import Main_ as M
-# ======MapInfo with a class======
-# map = mp.MapInfo()
-# print(map.Buildings)
-
-# ======MapInfo without a class ======
-# print(mp.Buildings)
 
 navi = M.Map() # navigator that contains our Graph object, 'G'.
 
 MI = mp.MapInfo() # MI: for Map Info. The Edges and Verix of the map to be added to the navi graph
 print(MI.Buildings[14][2])
-# print(navi)
+
 
 ##########  intialize our map graph ######
 navi.add_buildings(MI.Buildings) # add all building nodes
@@ -35,6 +29,8 @@ print(choice_mail_building)
 def menu(main_menu):
 	"""
 	Shows menu
+
+	:param main_menu: The keyword for deciding which menu to display
 	"""
 	if main_menu:
 		print("""
@@ -88,12 +84,12 @@ def Input_check_for_dummies(main_menu: int, decision = 0) -> str:
 		question_str = "Enter your Choice: ==>  " # guide for users in different modes
 	else:
 		choices = [str(n) for n in range(1, len(MI.Buildings) + 2)]
-		keyword = ["Enter your STARTING position: ==> ", "Enter your DESTINATION: ==> "]
+		keyword = ["Choose your 'STARTING' position: ==> ", "Choose your 'DESTINATION': ==> "]
 		question_str = keyword[decision]
 
 	user_input = input(question_str)
 
-	# The loop where dumb users will hav to keep trying until they input the valid choices
+	# The loop where dumb users will have to keep trying until they input the valid choices
 	while user_input not in choices:
 		print("Invalid choice! NaviGrapher can not correctly execute!\nPlease ReEnter one of these choices: '{}' !".format(choices))
 		user_input = input(question_str)
@@ -111,16 +107,9 @@ func_dict_main = {
 	"3": myprint, # navi.print_entries, # provisional functions to be later coded into the main.py to list out entries
 	"4": myprint
 }
-
-func_dict_navi = {
-	"1": myprint,
-	"2": myprint,
-	"3": myprint,
-	"4": myprint,
-	"5": myprint,
-	"6": myprint
-}
 ##### For testing purpose ####
+
+
 def naviGrapher_funcs(user_choice: str, main_menu: int) -> int:
 	"""
 	The main action mapping fucntion. Takes valid user input and matches the corresponding function to for particular action.
@@ -131,31 +120,11 @@ def naviGrapher_funcs(user_choice: str, main_menu: int) -> int:
 	# If user chooses for Navigation, change the menu and switch to navigation mode.
 	if main_menu and user_choice == "4":
 		main_menu = 0
-		# navigation_mode()  ---> To be continued for user choosing two numbers indicating starting and ending buildings maill code (ill do it later on)
-	
-	# Functions and actions matching the main menu choices
-	elif main_menu:
-		func_dict_main[user_choice]()
-
-	# Navigation Functions and actions matching its menu  ################### Main play goes here now!!!!
-	# May needa split into two functions for less generalized actions (it'll be easier i think,from where i am currently, brain stuck ... lol)
-	else:
-		func_dict_navi[user_choice]()
-	return main_menu
-
-def main():
-	"""
-	Main Fucntion to run the whole program
-	"""
-	main_menu = 1
-	while True:
-		# if user chooses for navigation mode, Navigavtion program
-
-		## May move this into the naviGrapher_funcs function for more readability and generalization
-		while not main_menu:
+		# navigation_mode, if user chooses for navigation mode, Navigavtion program
+		while True:
 			menu(main_menu)
 			user_Start = Input_check_for_dummies(main_menu)
-			if user_Start == "16":
+			if user_Start == "16": ########
 				print("Aborting Navigation ....\n")
 				main_menu = 1
 				break
@@ -163,7 +132,7 @@ def main():
 
 
 			user_Destination = Input_check_for_dummies(main_menu, 1) # Changes the prompt string with the second parameter
-			if user_Destination == "16":
+			if user_Destination == "16": ######### Don't want to code it in like this. WANT MORE FLEXIBILITY!!! AHHHH!!!
 				print("Aborting Navigation ....\n")
 				main_menu = 1
 				break
@@ -176,19 +145,29 @@ def main():
 			print("======================End Of Navigation========================")
 			print("\n")
 
+	# Functions and actions matching the main menu choices
+	elif main_menu:
+		func_dict_main[user_choice]()
 
+	return main_menu
 
-		else: ##
-			menu(main_menu)
-			# get and validate user inputs
-			user_input = Input_check_for_dummies(main_menu)
-			
-			#When user chooses to end the program
-			if user_input == "5" and main_menu:
-				print("Thank you for using NaviGrapher. GoodBye~!")
-				break
-			# keep track of what menu to display
-			main_menu = naviGrapher_funcs(user_input, main_menu)
+def main():
+	"""
+	Main Fucntion to run the whole program
+	"""
+	main_menu = 1
+	while True:
+		# prints our corresponding menu
+		menu(main_menu)
+		# get and validate user inputs
+		user_input = Input_check_for_dummies(main_menu)
+		
+		#When user chooses to end the program
+		if user_input == "5" and main_menu:
+			print("Thank you for using NaviGrapher. GoodBye~!")
+			break
+		# keep track of what menu to display
+		main_menu = naviGrapher_funcs(user_input, main_menu)
 
 main()
 
