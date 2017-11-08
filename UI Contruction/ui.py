@@ -27,7 +27,8 @@ navi.add_entryPaths(MI.EntryPaths) # Add all entry paths
 
 # The choice for connecting userinput to corresponding data for calculation of smallest path. Grab the mail codes for the path function via this dictionary
 choice_mail_building = { str(choicenum) : (buildingInfo[0], buildingInfo[2]) for choicenum, buildingInfo in zip( range(1, len(MI.Buildings) + 1 ) , MI.Buildings)}
-choice_mail_building[str(len(MI.Buildings) + 1)] = end_navigation_mode() # A provisional name for the fucntion --> will work on that later
+###choice_mail_building[str(len(MI.Buildings) + 1)] = end_navigation_mode() # A provisional name for the fucntion --> will work on that later
+
 # print(choice_mail_building)
 print(choice_mail_building)
 
@@ -94,7 +95,7 @@ def Input_check_for_dummies(main_menu: int) -> str:
 def myprint():
 	print("Hi its working")
 func_dict_main = {
-	"1": myprint,
+	"1": navi.print_buildings,
 	"2": myprint,
 	"3": myprint,
 	"4": myprint
