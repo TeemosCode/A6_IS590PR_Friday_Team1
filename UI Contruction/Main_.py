@@ -43,6 +43,14 @@ class Map():
         for x in L:
             self.add_undiEdge(x[0], x[1], x[2], x[3], x[4], x[5])
 
+    def add_MQPath(self,From: str, To: str, Name: str, Distance: int):  # add path in the main quad
+        self.G.add_edge(From, To, name=Name, dis=Distance, dir='NA')
+        self.G.add_edge(To, From, name=Name, dis=Distance, dir='NA')
+
+    def add_MQPaths(self, L: list):  # add a list of paths in the main quad
+        for x in L:
+            self.add_MQPath(x[0], x[1], x[2], x[3])
+
     def add_entryPath(self, From: str, To: int, Distance: int):  # add an undirected path from an entry to a building
         self.G.add_edge(From, To, dis=Distance)
         self.G.add_edge(To, From, dis=Distance)
@@ -69,41 +77,36 @@ class Map():
             direction=''
             for i in range(1, len(p)-2):
                 if direction != self.G[p[i]][p[i + 1]]['dir']:
-                    print("Starting on " + self.G[p[i]][p[i + 1]]['name'] + " turn " + self.G[p[i]][p[i + 1]]['dir'])
+                    if i==1:
+                        print("Starting on ",end="")
+                    else:
+                        print("At ",end="")
+                    print(self.G[p[i]][p[i + 1]]['name'] ,end="")
+                    if self.G[p[i]][p[i + 1]]['dir']=='NA':
+                        print(" go through the path on the lawn")
+                    else:
+                        print(" turn " + self.G[p[i]][p[i + 1]]['dir'])
                     direction = self.G[p[i]][p[i + 1]]['dir']
             print("Proceed until you arrive at " + End)
 
 
-if __name__ == "__main__":
+def main():
     M = Map()
-    # test
-    # M.add_building('BuildA', 'addr Build A', 111)
-    # M.add_building('BuildB', 'addr Build B', 222)
-    # M.add_building('BuildC', 'addr Build C', 333)
-    # M.add_building('BuildD', 'addr Build D', 444)
-    #
-    # M.add_edge('A2B', 'BuildA', 'BuildB', 200, 'North')
-    # M.add_edge('B2C', 'BuildB', 'BuildC', 200, 'East')
-    # M.add_edge('C2D', 'BuildC', 'BuildD', 200, 'South')
-    # M.add_edge('D2A', 'BuildD', 'BuildA', 200, 'West')
-    # M.add_edge('A2C', 'BuildA', 'BuildC', 100, 'Cross')
-    #
-    # M.cal_path('BuildA', 'BuildC')
 
     Buildings = [  # information of buildings - name, address, mail code
         ('School of Information Sciences', '501 E. Daniel St.', 493),
         ('Illini Union BookStore', '807 S. Wright St.', 312),
         ('Altgeld Hall', '1409 W. Green St.', 382),
         ('Illini Union', '1401 W. Green St.', 384),
-        ('Henry Administration Building', '506 S. Wright St.', 339),
+        ('Henry Administration Building', '506 S. Wright St.', 368),
         ('English Building', '608 S. Wright St.', 718),
         ('Lincoln Hall', '702 S. Wright St.', 456),
         ('Gregory Hall', '810 S. Wright St.', 462),
         ('Main Library', '1408 W. Gregory Dr.', 522),
         ('Institute For Genomic Biology', '1206 W. Gregory Dr.', 195),
         ('Smith Memorial Hall (Music)', '805 S. Matthews Ave.', 56),
-        ('Foreign Languages Building', '707 S. Matthews Ave.', 166),
-        ('Davenport Hall', '607 S. Matthews Ave.', 148),
+        ('Foreign Language Building', '707 S. Matthews Ave.', 164),
+        ('Davenport Hall', '607 S. Matthews Ave.', 151),
         ('UI Ice Arena', '406 E. Armory Ave.', 525),
         ('Armory', '505 E. Armory Ave.', 528)
     ]
@@ -129,12 +132,13 @@ if __name__ == "__main__":
         'Gregory & 6th',
         'Green & Wright',
         'Green & Mathews',
-        'Green & Goodvin',
+        'Green & Goodwin',
         'Oregon & Mathews',
         'Oregon & Goodwin',
         'Nevada & Mathews',
         'Nevada & Goodwin',
-        'Gregory & Goodwin'
+        'Gregory & Goodwin',
+        'Main Quad'
         # 'Gregory & Dorner' Do not need this intersection
     ]
 
@@ -155,9 +159,15 @@ if __name__ == "__main__":
         'to Main Library on Armory',
         'to Main Library on Gregory',
         'to Davenport Hall on Mathews',
-        'to Foreign Languages Building on Mathews',
+        'to Foreign Language Building on Mathews',
         'to Smith Memorial Hall (Music) on Mathews',
-        'to Institute For Genomic Biology on Goodwin'
+        'to Institute For Genomic Biology on Goodwin',
+        'to Illini Union on Main Quad',
+        'to Henry Administration Building on Main Quad',
+        'to English Building on Main Quad',
+        'to Lincoln Hall on Main Quad',
+        'to Davenport Hall on Main Quad',
+        'to Foreign Language Building on Main Quad'
     ]
 
     DiEdges = [  # directed edges - From, To, Name, Distance, Direction
@@ -216,8 +226,8 @@ if __name__ == "__main__":
         ('to Davenport Hall on Mathews', 'Oregon & Mathews', 'S. Mathews Ave.', 30, 'South'),
 
         ('Oregon & Mathews', 'Nevada & Mathews', 'S. Mathews Ave.', 150, 'South'),  # Entry to Foreign Languages Blg
-        ('Oregon & Mathews', 'to Foreign Languages Building on Mathews', 'S. Mathews Ave.', 120, 'South'),
-        ('to Foreign Languages Building on Mathews', 'Nevada & Mathews', 'S. Mathews Ave.', 30, 'South'),
+        ('Oregon & Mathews', 'to Foreign Language Building on Mathews', 'S. Mathews Ave.', 120, 'South'),
+        ('to Foreign Language Building on Mathews', 'Nevada & Mathews', 'S. Mathews Ave.', 30, 'South'),
 
         ('Nevada & Mathews', 'to Smith Memorial Hall (Music) on Mathews', 'S. Mathews Ave.', 75, 'South')  # Entry to SMH
 
@@ -255,15 +265,51 @@ if __name__ == "__main__":
 
         ('Nevada & Goodwin', 'Gregory & Goodwin', 'S. Goodwin Ave.', 200, 'North', 'South'),  # Entry to IGB
         ('Nevada & Goodwin', 'to Institute For Genomic Biology on Goodwin', 'S. Goodwin Ave.', 150, 'North', 'South'),
-        ('to Institute For Genomic Biology on Goodwin', 'Gregory & Goodwin', 'S. Goodwin Ave.', 50, 'North', 'South')
+        ('to Institute For Genomic Biology on Goodwin', 'Gregory & Goodwin', 'S. Goodwin Ave.', 50, 'North', 'South'),
 
+        # Since Intersections coincide with Entry Edges, the distance is equal to 0
+        ('Armory & 5th', 'to Armory on Armory', 'S. 5th St.', 0, 'North', 'South'),  # Entry to Armory on Armory
+        ('Armory & Wright', 'to Main Library on Armory', 'S. Wright St.', 0, 'North', 'South'),  # Entry to Main Library on Armory
+        ('Armory & Wright', 'to Gregory Hall on Wright', 'E. Armory Ave.', 0, 'East', 'West')  # Entry to Gregory Hall on Wright
+
+    ]
+
+    MainQuadPaths = [
+        ('to Illini Union on Main Quad', 'Main Quad', 'Main Quad', 180),
+        ('to Henry Administration Building on Main Quad', 'Main Quad', 'Main Quad', 105),
+        ('to English Building on Main Quad', 'Main Quad', 'Main Quad', 55),
+        ('to Lincoln Hall on Main Quad', 'Main Quad', 'Main Quad', 105),
+        ('to Davenport Hall on Main Quad', 'Main Quad', 'Main Quad', 90),
+        ('to Foreign Language Building on Main Quad', 'Main Quad', 'Main Quad', 140)
     ]
 
     EntryPaths = [  # undirected path - name of the entry to building, mail code of the building, distance
-        ('to English Building on Wright', 718, 50),
-        ('to Lincoln Hall on Wright', 456, 50)
+        ('to School of Information Sciences on Daniel', 493, 15),
+        ('to UI Ice Arena on Armory', 525, 10),
+        ('to Armory on Armory', 528, 40),
+        ('to Armory on Gregory', 528, 40),
+        ('to Illini Union BookStore on Daniel', 312, 5),
+        ('to Illini Union BookStore on Wright', 312, 5),
+        ('to Altgeld Hall on Wright', 382, 15),
+        ('to Altgeld Hall on Green', 382, 100),
+        ('to Illini Union on Green', 384, 70),
+        ('to Henry Administration Building on Wright', 368, 20),
+        ('to English Building on Wright', 718, 20),
+        ('to Lincoln Hall on Wright', 456, 20),
+        ('to Gregory Hall on Wright', 462, 20),
+        ('to Main Library on Armory', 522, 15),
+        ('to Main Library on Gregory', 522, 10),
+        ('to Davenport Hall on Mathews', 151, 20),
+        ('to Foreign Language Building on Mathews', 164, 15),
+        ('to Smith Memorial Hall (Music) on Mathews', 56, 25),
+        ('to Institute For Genomic Biology on Goodwin', 195, 35),
+        ('to Illini Union on Main Quad',384,0),
+        ('to Henry Administration Building on Main Quad',368,0),
+        ('to English Building on Main Quad',718,0),
+        ('to Lincoln Hall on Main Quad',456,0),
+        ('to Davenport Hall on Main Quad',151,0),
+        ('to Foreign Language Building on Main Quad',164,0)
     ]
-
 
     M.add_buildings(Buildings)
     M.add_intersections(Intersections)
@@ -272,7 +318,12 @@ if __name__ == "__main__":
     M.add_diEdges(DiEdges)
     M.add_undiEdges(UndiEdges)
     M.add_entryPaths(EntryPaths)
+    M.add_MQPaths(MainQuadPaths)
+    #M.print_buildings()
 
-    M.print_buildings()
-    M.cal_path(456, 718)
+    M.cal_path(384,368)
+    M.cal_path(718,312)
+    M.cal_path(493,525)  # wrong direction
+
+main()
 

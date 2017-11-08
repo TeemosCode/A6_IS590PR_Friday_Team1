@@ -121,8 +121,11 @@ def naviGrapher_funcs(user_choice: str, main_menu: int) -> int:
 	if main_menu and user_choice == "4":
 		main_menu = 0
 		# navigation_mode()  ---> To be continued for user choosing two numbers indicating starting and ending buildings maill code (ill do it later on)
+	
+	# Functions and actions matching the main menu choices
 	elif main_menu:
 		func_dict_main[user_choice]()
+	# Navigation Functions and actions matching its menu  ################### Main play goes here now!!!!
 	else:
 		func_dict_navi[user_choice]()
 	return main_menu
@@ -136,7 +139,7 @@ def main():
 		menu(main_menu)
 		# get and validate user inputs
 		user_input = Input_check_for_dummies(main_menu)
-		print("finished CHOOSING choice!", user_input, "\n Thats the input | above this line")
+		
 		#When user chooses to end the program
 		if user_input == "5" and main_menu:
 			print("Thank you for using NaviGrapher. GoodBye~!")
