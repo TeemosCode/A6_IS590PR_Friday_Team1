@@ -1,6 +1,7 @@
 import MapInfo as mp
 import Main_ as M
 
+
 navi = M.Map() # navigator that contains our Graph object, 'G'.
 
 MI = mp.MapInfo() # MI: for Map Info. The Edges and Verix of the map to be added to the navi graph
@@ -20,8 +21,8 @@ navi.add_entryPaths(MI.EntryPaths) # Add all entry paths
 
 
 # The choice for connecting userinput to corresponding data for calculation of smallest path. Grab the mail codes for the path function via this dictionary
-choice_mail_building = { str(choicenum) : (buildingInfo[0], buildingInfo[2]) for choicenum, buildingInfo in zip( range(1, len(MI.Buildings) + 1 ) , MI.Buildings)}
-##choice_mail_building[str(len(MI.Buildings) + 1)] = end_navigation_mode() # A provisional name for the fucntion --> MAY work on that later
+choice_mail_building = { str(choicenum) : (buildingInfo[0], buildingInfo[1], buildingInfo[2]) for choicenum, buildingInfo in zip( range(1, len(MI.Buildings) + 1 ) , MI.Buildings)}
+
 
 # print(choice_mail_building)
 print(choice_mail_building)
@@ -44,6 +45,7 @@ def menu(main_menu):
 			 """)
 
 	if not main_menu:
+
 		print(
 		"""
       =========================== Navigation Mode ============================
@@ -52,23 +54,12 @@ def menu(main_menu):
  First time will be the starting building of where you want to start.
  Second will be the building of the destination you want to arrive at.
 =========================== Choice : (Buildings, Address, Mailcode) ============================
-1 : ('School of Information Sciences', '501 E. Daniel St.', 493),
-2 : ('Illini Union BookStore', '807 S. Wright St.', 312),
-3 : ('Altgeld Hall', '1409 W. Green St.', 382),
-4 : ('Illini Union', '1401 W. Green St.', 384),
-5 : ('Henry Administration Building', '506 S. Wright St.', 339),
-6 : ('English Building', '608 S. Wright St.', 718),
-7 : ('Lincoln Hall', '702 S. Wright St.', 456),
-8 : ('Gregory Hall', '810 S. Wright St.', 462),
-9 : ('Main Library', '1408 W. Gregory Dr.', 522),
-10: ('Institute For Genomic Biology', '1206 W. Gregory Dr.', 195),
-11: ('Smith Memorial Hall (Music)', '805 S. Matthews Ave.', 56),
-12: ('Foreign Languages Building', '707 S. Matthews Ave.', 166),
-13: ('Davenport Hall', '607 S. Matthews Ave.', 148),
-14: ('UI Ice Arena', '406 E. Armory Ave.', 525),
-15: ('Armory', '505 E. Armory Ave.', 528)
-16: ["End Navigation Mode"]
 		""")
+		# Scalability for menu function. If there were more nodes added into the MapInfo.py, it can be uploaded accordingly without hardcoding in the first place.
+		for numChoice in range(1, len(choice_mail_building) + 1):
+			print("%2d: %s" % (numChoice, choice_mail_building[str(numChoice)]))
+
+		print('%2d: ["End Navigation Mode"]\n' % (len(choice_mail_building) + 1))
 
 def Input_check_for_dummies(main_menu: int, decision = 0) -> str:
 	"""
@@ -100,6 +91,9 @@ def Input_check_for_dummies(main_menu: int, decision = 0) -> str:
 # A dict with choice string and its corresponding function name
 def myprint():
 	print("Hi its working")
+##### For testing purpose ####
+
+# Dictionary that maps user choices to corresponding functions in the graph object
 func_dict_main = {
 	"1": navi.print_buildings,
 	# Currently use myprint test function to keep the program from crashing before the functions are finished and tested!!####
@@ -107,7 +101,7 @@ func_dict_main = {
 	"3": myprint, # navi.print_entries, # provisional functions to be later coded into the main.py to list out entries
 	"4": myprint
 }
-##### For testing purpose ####
+
 
 
 def naviGrapher_funcs(user_choice: str, main_menu: int) -> int:
@@ -128,7 +122,7 @@ def naviGrapher_funcs(user_choice: str, main_menu: int) -> int:
 				print("Aborting Navigation ....\n")
 				main_menu = 1
 				break
-			start = choice_mail_building[user_Start][1] # get the mail code in our dictionary
+			start = choice_mail_building[user_Start][2] # get the mail code in our dictionary "choice_mail_building" tuple value with index 2
 
 
 			user_Destination = Input_check_for_dummies(main_menu, 1) # Changes the prompt string with the second parameter
@@ -136,7 +130,7 @@ def naviGrapher_funcs(user_choice: str, main_menu: int) -> int:
 				print("Aborting Navigation ....\n")
 				main_menu = 1
 				break
-			end = choice_mail_building[user_Destination][1]
+			end = choice_mail_building[user_Destination][2] # get the mail code in our dictionary "choice_mail_building" tuple value with index 2
 
 			print("\n")
 			print('=====================Starting Navigation=======================')
@@ -169,7 +163,9 @@ def main():
 		# keep track of what menu to display
 		main_menu = naviGrapher_funcs(user_input, main_menu)
 
-main()
+
+if __name__ == "__main__":
+	main()
 
 
 
