@@ -324,5 +324,5 @@ def main():
     M.cal_path(384,368)
     M.cal_path(718,312)
     M.cal_path(493,525)  # wrong direction
-
-main()
+if __name__ == "__main__":
+    main()

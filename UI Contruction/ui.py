@@ -5,7 +5,7 @@ import Main_ as M
 navi = M.Map() # navigator that contains our Graph object, 'G'.
 
 MI = mp.MapInfo() # MI: for Map Info. The Edges and Verix of the map to be added to the navi graph
-print(MI.Buildings[14][2])
+
 
 
 ##########  intialize our map graph ######
@@ -16,16 +16,12 @@ navi.add_diEdges(MI.DiEdges) # Add all directed edges
 navi.add_undiEdges(MI.UndiEdges) # Add all undirected edges
 navi.add_entryPaths(MI.EntryPaths) # Add all entry paths
 
-# print(navi.G.edges)
-# print(navi.G.adj)
-
 
 # The choice for connecting userinput to corresponding data for calculation of smallest path. Grab the mail codes for the path function via this dictionary
 choice_mail_building = { str(choicenum) : (buildingInfo[0], buildingInfo[1], buildingInfo[2]) for choicenum, buildingInfo in zip( range(1, len(MI.Buildings) + 1 ) , MI.Buildings)}
 
 
-# print(choice_mail_building)
-print(choice_mail_building)
+#print(choice_mail_building)
 
 def menu(main_menu):
 	"""
@@ -93,6 +89,8 @@ def myprint():
 	print("Hi its working")
 ##### For testing purpose ####
 
+
+### This "Has" to be hard coded!
 # Dictionary that maps user choices to corresponding functions in the graph object
 func_dict_main = {
 	"1": navi.print_buildings,
