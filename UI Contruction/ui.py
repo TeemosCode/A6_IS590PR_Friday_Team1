@@ -14,7 +14,9 @@ navi.add_intersections(MI.Intersections) # add all intersections
 navi.add_entries(MI.Entries) # add all entries
 navi.add_diEdges(MI.DiEdges) # Add all directed edges
 navi.add_undiEdges(MI.UndiEdges) # Add all undirected edges
+navi.add_MQPaths(MI.MainQuadPaths) # Add all paths to main quad
 navi.add_entryPaths(MI.EntryPaths) # Add all entry paths
+
 
 
 # The choice for connecting userinput to corresponding data for calculation of smallest path. Grab the mail codes for the path function via this dictionary
@@ -116,7 +118,7 @@ def naviGrapher_funcs(user_choice: str, main_menu: int) -> int:
 		while True:
 			menu(main_menu)
 			user_Start = Input_check_for_dummies(main_menu)
-			if user_Start == "16": ########
+			if user_Start == str(len(choice_mail_building) + 1): # Generalize the ending choice, make it scalable wihtout hardcoding
 				print("Aborting Navigation ....\n")
 				main_menu = 1
 				break
@@ -124,7 +126,7 @@ def naviGrapher_funcs(user_choice: str, main_menu: int) -> int:
 
 
 			user_Destination = Input_check_for_dummies(main_menu, 1) # Changes the prompt string with the second parameter
-			if user_Destination == "16": ######### Don't want to code it in like this. WANT MORE FLEXIBILITY!!! AHHHH!!!
+			if user_Destination == str(len(choice_mail_building) + 1):
 				print("Aborting Navigation ....\n")
 				main_menu = 1
 				break
