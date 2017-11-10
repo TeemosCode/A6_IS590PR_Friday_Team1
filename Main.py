@@ -1,122 +1,171 @@
-import networkx as nx
+#from Map_Info import Info as info # a dictionary data structure
+
+## Just paste and use it as module input would be easier
 import MapInfo as info
-class Map():
-    def __init__(self):
-        self.G = nx.DiGraph()  # directed graph
+import Navigate as Map
 
-    def add_building(self, Name: str, Address: str, MailCode: int):  # add a building as a node to the graph
-        # use mail code as key
-        self.G.add_node(MailCode, name=Name, addr=Address, flag=0)  # flag=0 means this node is a building
 
-    def add_buildings(self, L: list):  # add a list of buildings
-        for x in L:
-            self.add_building(x[0], x[1], x[2])
+navi = Map.Map() # navigator that contains our Graph object, 'G'.
 
-    def add_intersection(self, Name: str): # add a intersection as a node to the graph
-        self.G.add_node(Name, flag=1)  # flag=1 means this node is an intersection
+# different approach
+# ##########  intialize our map graph ######
+# navi.add_buildings(info["Buildings"]) # add all building nodes
+# navi.add_intersections(info["Intersections"]) # add all intersections
+# navi.add_entries(info["Entries"]) # add all entries
+# navi.add_diEdges(info["DiEdges"]) # Add all directed edges
+# navi.add_undiEdges(info["UndiEdges"]) # Add all undirected edges
+# navi.add_MQPaths(info["MainQuadPaths"]) # Add all paths to main quad
+# navi.add_entryPaths(info["EntryPaths"]) # Add all entry paths
 
-    def add_intersections(self, L: list):  # add a list of intersections
-        for x in L:
-            self.add_intersection(x)
 
-    def add_entry(self, Name: str):  # add an entry as a node to the graph
-        self.G.add_node(Name, flag=2)  # flag=2 means this node is an entry to a building
+##########  intialize our map graph ######
+navi.add_buildings(info.Buildings) # add all building nodes
+navi.add_intersections(info.Intersections) # add all intersections
+navi.add_entries(info.Entries) # add all entries
+navi.add_diEdges(info.DiEdges) # Add all directed edges
+navi.add_undiEdges(info.UndiEdges) # Add all undirected edges
+navi.add_MQPaths(info.MainQuadPaths) # Add all paths to main quad
+navi.add_entryPaths(info.EntryPaths) # Add all entry paths
 
-    def add_entries(self, L: list):  # add a list of entries
-        for x in L:
-            self.add_entry(x)
 
-    def add_diEdge(self, From: str, To: str, Name: str, Distance: int, Direction: str):  # add directed edge to the graph
-        self.G.add_edge(From, To, name=Name, dis=Distance, dir=Direction)
 
-    def add_diEdges(self, L: list):  # add a list of directed edges
-        for x in L:
-            self.add_diEdge(x[0], x[1], x[2], x[3], x[4])
+# The choice for connecting userinput to corresponding data for calculation of smallest path. Grab the mail codes for the path function via this dictionary
+choice_mail_building = { str(choicenum) : (buildingInfo[0], buildingInfo[1], buildingInfo[2]) for choicenum, buildingInfo in zip( range(1, len(info.Buildings) + 1 ) , info.Buildings)}
 
-    def add_undiEdge(self, From: str, To: str, Name: str, Distance: int, Direction1: str,
-                     Direction2: str):  # add an undirected edge to the graph
-        self.G.add_edge(From, To, name=Name, dis=Distance, dir=Direction1)
-        self.G.add_edge(To, From, name=Name, dis=Distance, dir=Direction2)
 
-    def add_undiEdges(self, L: list):  # add a list of undirected edges
-        for x in L:
-            self.add_undiEdge(x[0], x[1], x[2], x[3], x[4], x[5])
+#print(choice_mail_building)
 
-    def add_MQPath(self,From: str, To: str, Name: str, Distance: int):  # add path in the main quad
-        self.G.add_edge(From, To, name=Name, dis=Distance, dir='NA')
-        self.G.add_edge(To, From, name=Name, dis=Distance, dir='NA')
+def menu(main_menu):
+	"""
+	Shows menu
 
-    def add_MQPaths(self, L: list):  # add a list of paths in the main quad
-        for x in L:
-            self.add_MQPath(x[0], x[1], x[2], x[3])
+	:param main_menu: The keyword for deciding which menu to display
+	"""
+	if main_menu:
+		print("""
+ =========================== Welcome to NaviGrapher ============================
+ -------- Please Enter the "number" of choices below to use NaviGrapher --------
+ (1). List All Buildings
+ (2). Navigate! 
+ (3). Exit/Quit 
+			 """)
 
-    def add_entryPath(self, From: str, To: int, Distance: int):  # add an undirected path from an entry to a building
-        self.G.add_edge(From, To, dis=Distance)
-        self.G.add_edge(To, From, dis=Distance)
+	if not main_menu:
 
-    def add_entryPaths(self, L: list):  # add a list of entry path
-        for x in L:
-            self.add_entryPath(x[0], x[1], x[2])
+		print(
+		"""
+      =========================== Navigation Mode ============================
+ Choose the corresponding NUMBER of TWO buildings where you would like to navigate between.
+ You will be asked to choose the number of the building two times.
+ First time will be the starting building of where you want to start.
+ Second will be the building of the destination you want to arrive at.
+=========================== Choice : (Buildings, Address, Mailcode) ============================
+		""")
+		# Scalability for menu function. If there were more nodes added into the MapInfo.py, it can be uploaded accordingly without hardcoding in the first place.
+		for numChoice in range(1, len(choice_mail_building) + 1):
+			print("%2d: %s" % (numChoice, choice_mail_building[str(numChoice)]))
 
-    def print_buildings(self):  # print all buildings
-        tmp = list(filter(lambda x: x[1]['flag'] == 0, self.G.nodes(data=True)))  # all buildings
-        tmp.sort(key=lambda x: x[1]['name'])
-        print('\033[1m' + 'NAME\t MAIL CODE' + '\033[0m')  # bold this title
-        for x in tmp:
-            print(x[1]['name'], '\t', x[0])
+		print('%2d: ["End Navigation Mode"]\n' % (len(choice_mail_building) + 1))
 
-    def cal_path(self, From: int, To: int):
-        Start = self.G.node[From]['name']
-        End = self.G.node[To]['name']
-        try:
-            p = nx.dijkstra_path(self.G, From, To, 'dis')  # find shortest path depending on 'dis' attribute
-        except nx.exception.NetworkXNoPath:
-            print("There is no path from", Start, "to", End)
-        else:
-            print('\033[1m' + 'Travel from ' + Start + ' to ' + End + ':' + '\033[0m')
-            direction=''
-            intoBldflag=0
-            for i in range(1, len(p)-2):
-                try:
-                    if direction != self.G[p[i]][p[i + 1]]['dir']:
-                        if i==1:
-                            print("Starting on ",end="")
-                        else:
-                            print("At ",end="")
-                        print(self.G[p[i]][p[i + 1]]['name'] ,end="")
-                        if self.G[p[i]][p[i + 1]]['dir']=='NA':
-                            print(" go through the path on the lawn")
-                        else:
-                            print(" turn " + self.G[p[i]][p[i + 1]]['dir'])
-                        direction = self.G[p[i]][p[i + 1]]['dir']
-                except KeyError:
-                    if intoBldflag==0:
-                        print("Go through the",self.G.node[p[i+1]]['name'])
-                        intoBldflag+=1
-                    elif intoBldflag==1:
-                        intoBldflag=0
-            print("Proceed until you arrive at " + End)
+def Input_check_for_dummies(main_menu: int, decision = 0) -> str:
+	"""
+	The fucntion that takes in user inputs and validates the input, outputs the validated input
 
+	:param main_menu: 0 or 1 to indicate which menu the program is currently desplaying
+	:param decision: default to 0, used to grab the strings in the list variable 'keyword' for different promt message
+	:return user_input: The string type of the valid user input
+	"""
+	# check to see which menu is currently on display to change the valid choices coreespondingly
+	if main_menu:
+		choices = [str(n) for n in range(1,6)]
+		question_str = "Enter your Choice: " # guide for users in different modes
+	else:
+		choices = [str(n) for n in range(1, len(info.Buildings) + 2)]
+		keyword = ["Choose your 'STARTING' building mail code: ", "Choose your 'DESTINATION' building mail code: "]
+		question_str = keyword[decision]
+
+	user_input = input(question_str)
+
+	# The loop where dumb users will have to keep trying until they input the valid choices
+	while user_input not in choices:
+		print("Invalid choice! NaviGrapher can not correctly execute!\nPlease ReEnter one of these choices: '{}' !".format(choices))
+		user_input = input(question_str)
+	return user_input
+
+
+### This "Has" to be hard coded!
+# Dictionary that maps user choices to corresponding functions in the graph object
+func_dict_main = {
+	"1": navi.print_buildings
+	# Currently use myprint test function to keep the program from crashing before the functions are finished and tested!!####
+}
+
+
+
+def naviGrapher_funcs(user_choice: str, main_menu: int) -> int:
+	"""
+	The main action mapping fucntion. Takes valid user input and matches the corresponding function to for particular action.
+
+	:param user_choice: The string of the valid user choice input
+	:return main_menu: The numbers 0 or 1 to indicate the displaying menu
+	"""
+	# If user chooses for Navigation, change the menu and switch to navigation mode.
+	if main_menu and user_choice == "2":
+		main_menu = 0
+		# navigation_mode, if user chooses for navigation mode, Navigavtion program
+		while True:
+			menu(main_menu)
+			user_Start = Input_check_for_dummies(main_menu)
+			if user_Start == str(len(choice_mail_building) + 1): # Generalize the ending choice, make it scalable wihtout hardcoding
+				print("Aborting Navigation ....\n")
+				main_menu = 1
+				break
+			start = choice_mail_building[user_Start][2] # get the mail code in our dictionary "choice_mail_building" tuple value with index 2
+
+
+			user_Destination = Input_check_for_dummies(main_menu, 1) # Changes the prompt string with the second parameter
+			if user_Destination == str(len(choice_mail_building) + 1):
+				print("Aborting Navigation ....\n")
+				main_menu = 1
+				break
+			end = choice_mail_building[user_Destination][2] # get the mail code in our dictionary "choice_mail_building" tuple value with index 2
+
+			print("\n")
+			print('=====================Starting Navigation=======================')
+			navi.cal_path(start, end)
+
+			print("======================End Of Navigation========================")
+			print("\n")
+
+	# Functions and actions matching the main menu choices
+	elif main_menu:
+		func_dict_main[user_choice]()
+
+	return main_menu
 
 def main():
-    M = Map()
+	"""
+	Main Fucntion to run the whole program
+	"""
+	main_menu = 1
+	while True:
+		# prints our corresponding menu
+		menu(main_menu)
+		# get and validate user inputs
+		user_input = Input_check_for_dummies(main_menu)
+		
+		#When user chooses to end the program
+		if user_input == "3" and main_menu:
+			print("Thank you for using NaviGrapher. GoodBye~!")
+			break
+		# keep track of what menu to display
+		main_menu = naviGrapher_funcs(user_input, main_menu)
 
-    M.add_buildings(info.Buildings)
-    M.add_intersections(info.Intersections)
-    M.add_entries(info.Entries)
-
-    M.add_diEdges(info.DiEdges)
-    M.add_undiEdges(info.UndiEdges)
-    M.add_entryPaths(info.EntryPaths)
-    M.add_MQPaths(info.MainQuadPaths)
-    M.print_buildings()
-
-    #M.cal_path(384,368)
-    #M.cal_path(718,312)
-    #M.cal_path(493,525)  # now correct direction
-    M.cal_path(493,384)
-    M.cal_path(522,51)
-    M.cal_path(312, 51)
 
 if __name__ == "__main__":
 	main()
+
+
+
+
+
