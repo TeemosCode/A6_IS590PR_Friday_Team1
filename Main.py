@@ -54,7 +54,7 @@ def menu(main_menu):
 
 		print(
 		"""
-      =========================== Navigation Mode ============================
+======================================= Navigation Mode ========================================
  Choose the corresponding NUMBER of TWO buildings where you would like to navigate between.
  You will be asked to choose the number of the building two times.
  First time will be the starting building of where you want to start.
