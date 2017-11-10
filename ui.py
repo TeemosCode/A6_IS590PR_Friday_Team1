@@ -46,10 +46,8 @@ def menu(main_menu):
  =========================== Welcome to NaviGrapher ============================
  -------- Please Enter the "number" of choices below to use NaviGrapher --------
  (1). List All Buildings
- (2). List All Avaiable Paths
- (3). List All Entries to Certain Buildings
- (4). Navigate! 
- (5). Exit/Quit 
+ (2). Navigate! 
+ (3). Exit/Quit 
 			 """)
 
 	if not main_menu:
@@ -95,21 +93,11 @@ def Input_check_for_dummies(main_menu: int, decision = 0) -> str:
 	return user_input
 
 
-##### For Testing Purpose #####
-# A dict with choice string and its corresponding function name
-def myprint():
-	print("Hi its working")
-##### For testing purpose ####
-
-
 ### This "Has" to be hard coded!
 # Dictionary that maps user choices to corresponding functions in the graph object
 func_dict_main = {
-	"1": navi.print_buildings,
+	"1": navi.print_buildings
 	# Currently use myprint test function to keep the program from crashing before the functions are finished and tested!!####
-	"2": myprint, # navi.print_paths, # provisional functions to be later coded into the main.py to list out all paths
-	"3": myprint, # navi.print_entries, # provisional functions to be later coded into the main.py to list out entries
-	"4": myprint
 }
 
 
@@ -122,7 +110,7 @@ def naviGrapher_funcs(user_choice: str, main_menu: int) -> int:
 	:return main_menu: The numbers 0 or 1 to indicate the displaying menu
 	"""
 	# If user chooses for Navigation, change the menu and switch to navigation mode.
-	if main_menu and user_choice == "4":
+	if main_menu and user_choice == "2":
 		main_menu = 0
 		# navigation_mode, if user chooses for navigation mode, Navigavtion program
 		while True:
@@ -167,7 +155,7 @@ def main():
 		user_input = Input_check_for_dummies(main_menu)
 		
 		#When user chooses to end the program
-		if user_input == "5" and main_menu:
+		if user_input == "3" and main_menu:
 			print("Thank you for using NaviGrapher. GoodBye~!")
 			break
 		# keep track of what menu to display
