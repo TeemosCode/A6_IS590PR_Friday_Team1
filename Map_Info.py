@@ -1,161 +1,62 @@
-import networkx as nx
+# Module of Map info for nodes
 
-class Map():
-    def __init__(self):
-        self.G = nx.DiGraph()  # directed graph
+Info = {
+    "Buildings" : [  # information of buildings - name, address, mail code
+            ('School of Information Sciences', '501 E. Daniel St.', 493),
+            ('Illini Union BookStore', '807 S. Wright St.', 312),
+            ('Altgeld Hall', '1409 W. Green St.', 382),
+            ('Illini Union', '1401 W. Green St.', 384),
+            ('Henry Administration Building', '506 S. Wright St.', 368),
+            ('English Building', '608 S. Wright St.', 718),
+            ('Lincoln Hall', '702 S. Wright St.', 456),
+            ('Gregory Hall', '810 S. Wright St.', 462),
+            ('Main Library', '1408 W. Gregory Dr.', 522),
+            ('Institute For Genomic Biology', '1206 W. Gregory Dr.', 195),
+            ('Smith Memorial Hall (Music)', '805 S. Mathews Ave.', 56),
+            ('Foreign Language Building', '707 S. Mathews Ave.', 164),
+            ('Davenport Hall', '607 S. Mathews Ave.', 151),
+            ('UI Ice Arena', '406 E. Armory Ave.', 525),
+            ('Armory', '505 E. Armory Ave.', 528),
+            ('Medical Sciences Building', '506 S. Mathews', 714),
+            ('Roger Adams Lab', '600 S. Mathews', 712),
+            ('Native American House', '1206 W. Nevada', 139),
+            ('Animal Sciences Lab', '1207 W. Gregory', 630),
+            ('Edward R. Madigan Lab', '1201 W. Gregory', 51)
 
-    def add_building(self, Name: str, Address: str, MailCode: int):  # add a building as a node to the graph
-        # use mail code as key
-        self.G.add_node(MailCode, name=Name, addr=Address, flag=0)  # flag=0 means this node is a building
+        ],
 
-    def add_buildings(self, L: list):  # add a list of buildings
-        for x in L:
-            self.add_building(x[0], x[1], x[2])
+    "Intersections" : [  # names of the intersection
+            'John & 4th',
+            'John & 5th',
+            'John & 6th',
+            'John & Wright',
+            'Daniel & 4th',
+            'Daniel & 5th',
+            'Daniel & 6th',
+            'Daniel & Wright',
+            'Chalmers & 4th',
+            'Chalmers & 5th',
+            'Chalmers & 6th',
+            'Chalmers & Wright',
+            'Armory & 4th',
+            'Armory & 5th',
+            'Armory & 6th',
+            'Armory & Wright',
+            'Gregory & 4th',
+            'Gregory & 6th',
+            'Green & Wright',
+            'Green & Mathews',
+            'Green & Goodwin',
+            'Oregon & Mathews',
+            'Oregon & Goodwin',
+            'Nevada & Mathews',
+            'Nevada & Goodwin',
+            'Gregory & Goodwin',
+            'Main Quad'
+            # 'Gregory & Dorner' Do not need this intersection
+        ],
 
-    def add_intersection(self, Name: str): # add a intersection as a node to the graph
-        self.G.add_node(Name, flag=1)  # flag=1 means this node is an intersection
-
-    def add_intersections(self, L: list):  # add a list of intersections
-        for x in L:
-            self.add_intersection(x)
-
-    def add_entry(self, Name: str):  # add an entry as a node to the graph
-        self.G.add_node(Name, flag=2)  # flag=2 means this node is an entry to a building
-
-    def add_entries(self, L: list):  # add a list of entries
-        for x in L:
-            self.add_entry(x)
-
-    def add_diEdge(self, From: str, To: str, Name: str, Distance: int, Direction: str):  # add directed edge to the graph
-        self.G.add_edge(From, To, name=Name, dis=Distance, dir=Direction)
-
-    def add_diEdges(self, L: list):  # add a list of directed edges
-        for x in L:
-            self.add_diEdge(x[0], x[1], x[2], x[3], x[4])
-
-    def add_undiEdge(self, From: str, To: str, Name: str, Distance: int, Direction1: str,
-                     Direction2: str):  # add an undirected edge to the graph
-        self.G.add_edge(From, To, name=Name, dis=Distance, dir=Direction1)
-        self.G.add_edge(To, From, name=Name, dis=Distance, dir=Direction2)
-
-    def add_undiEdges(self, L: list):  # add a list of undirected edges
-        for x in L:
-            self.add_undiEdge(x[0], x[1], x[2], x[3], x[4], x[5])
-
-    def add_MQPath(self,From: str, To: str, Name: str, Distance: int):  # add path in the main quad
-        self.G.add_edge(From, To, name=Name, dis=Distance, dir='NA')
-        self.G.add_edge(To, From, name=Name, dis=Distance, dir='NA')
-
-    def add_MQPaths(self, L: list):  # add a list of paths in the main quad
-        for x in L:
-            self.add_MQPath(x[0], x[1], x[2], x[3])
-
-    def add_entryPath(self, From: str, To: int, Distance: int):  # add an undirected path from an entry to a building
-        self.G.add_edge(From, To, dis=Distance)
-        self.G.add_edge(To, From, dis=Distance)
-
-    def add_entryPaths(self, L: list):  # add a list of entry path
-        for x in L:
-            self.add_entryPath(x[0], x[1], x[2])
-
-    def print_buildings(self):  # print all buildings
-        tmp = list(filter(lambda x: x[1]['flag'] == 0, self.G.nodes(data=True)))  # all buildings
-        print('\033[1m' + 'NAME\t MAIL CODE' + '\033[0m')  # bold this title
-        for x in tmp:
-            print(x[1]['name'], '\t', x[0])
-
-    def cal_path(self, From: int, To: int):
-        Start = self.G.node[From]['name']
-        End = self.G.node[To]['name']
-        try:
-            p = nx.dijkstra_path(self.G, From, To, 'dis')  # find shortest path depending on 'dis' attribute
-        except nx.exception.NetworkXNoPath:
-            print("There is no path from", Start, "to", End)
-        else:
-            print('\033[1m' + 'Travel from ' + Start + ' to ' + End + ':' + '\033[0m')
-            direction=''
-            intoBldflag=0
-            for i in range(1, len(p)-2):
-                try:
-                    if direction != self.G[p[i]][p[i + 1]]['dir']:
-                        if i==1:
-                            print("Starting on ",end="")
-                        else:
-                            print("At ",end="")
-                        print(self.G[p[i]][p[i + 1]]['name'] ,end="")
-                        if self.G[p[i]][p[i + 1]]['dir']=='NA':
-                            print(" go through the path on the lawn")
-                        else:
-                            print(" turn " + self.G[p[i]][p[i + 1]]['dir'])
-                        direction = self.G[p[i]][p[i + 1]]['dir']
-                except KeyError:
-                    if intoBldflag==0:
-                        print("Go through the",self.G.node[p[i+1]]['name'])
-                        intoBldflag+=1
-                    elif intoBldflag==1:
-                        intoBldflag=0
-            print("Proceed until you arrive at " + End)
-
-
-def main():
-    M = Map()
-
-    Buildings = [  # information of buildings - name, address, mail code
-        ('School of Information Sciences', '501 E. Daniel St.', 493),
-        ('Illini Union BookStore', '807 S. Wright St.', 312),
-        ('Altgeld Hall', '1409 W. Green St.', 382),
-        ('Illini Union', '1401 W. Green St.', 384),
-        ('Henry Administration Building', '506 S. Wright St.', 368),
-        ('English Building', '608 S. Wright St.', 718),
-        ('Lincoln Hall', '702 S. Wright St.', 456),
-        ('Gregory Hall', '810 S. Wright St.', 462),
-        ('Main Library', '1408 W. Gregory Dr.', 522),
-        ('Institute For Genomic Biology', '1206 W. Gregory Dr.', 195),
-        ('Smith Memorial Hall (Music)', '805 S. Mathews Ave.', 56),
-        ('Foreign Language Building', '707 S. Mathews Ave.', 164),
-        ('Davenport Hall', '607 S. Mathews Ave.', 151),
-        ('UI Ice Arena', '406 E. Armory Ave.', 525),
-        ('Armory', '505 E. Armory Ave.', 528),
-        ('Medical Sciences Building', '506 S. Mathews', 714),
-        ('Roger Adams Lab', '600 S. Mathews', 712),
-        ('Native American House', '1206 W. Nevada', 139),
-        ('Animal Sciences Lab', '1207 W. Gregory', 630),
-        ('Edward R. Madigan Lab', '1201 W. Gregory', 51)
-
-    ]
-
-    Intersections = [  # names of the intersection
-        'John & 4th',
-        'John & 5th',
-        'John & 6th',
-        'John & Wright',
-        'Daniel & 4th',
-        'Daniel & 5th',
-        'Daniel & 6th',
-        'Daniel & Wright',
-        'Chalmers & 4th',
-        'Chalmers & 5th',
-        'Chalmers & 6th',
-        'Chalmers & Wright',
-        'Armory & 4th',
-        'Armory & 5th',
-        'Armory & 6th',
-        'Armory & Wright',
-        'Gregory & 4th',
-        'Gregory & 6th',
-        'Green & Wright',
-        'Green & Mathews',
-        'Green & Goodwin',
-        'Oregon & Mathews',
-        'Oregon & Goodwin',
-        'Nevada & Mathews',
-        'Nevada & Goodwin',
-        'Gregory & Goodwin',
-        'Main Quad'
-        # 'Gregory & Dorner' Do not need this intersection
-    ]
-
-    Entries = [  # names of the entries
+    "Entries" : [  # names of the entries
         'to School of Information Sciences on Daniel',
         'to UI Ice Arena on Armory',
         'to Armory on Armory',
@@ -186,9 +87,9 @@ def main():
         'to Native American House on Nevada',
         'to Animal Sciences Lab on Gregory',
         'to Edward R. Madigan Lab on Gregory'
-    ]
+    ],
 
-    DiEdges = [  # directed edges - From, To, Name, Distance, Direction
+    "DiEdges" : [  # directed edges - From, To, Name, Distance, Direction
         ('John & 4th', 'John & 5th', 'E. John St.', 150, 'East'),
         ('John & 5th', 'John & 6th', 'E. John St.', 150, 'East'),
         ('John & Wright', 'John & 6th', 'E. John St.', 150, 'West'),
@@ -224,9 +125,9 @@ def main():
         ('Oregon & Mathews', 'Nevada & Mathews', 'S. Mathews Ave.', 150, 'South'),  # Entry to Foreign Languages Blg
         ('Oregon & Mathews', 'to Foreign Language Building on Mathews', 'S. Mathews Ave.', 120, 'South'),
         ('to Foreign Language Building on Mathews', 'Nevada & Mathews', 'S. Mathews Ave.', 30, 'South')
-    ]
+    ],
 
-    UndiEdges = [  # undirected edges - From, To, Name, Distance, Direction1(From->To), Direction2(To->From)
+    "UndiEdges" : [  # undirected edges - From, To, Name, Distance, Direction1(From->To), Direction2(To->From)
         ('Daniel & 4th', 'Daniel & 5th', 'E. Daniel St.', 150, 'East', 'West'),
 
         ('Daniel & 5th', 'Daniel & 6th', 'E. Daniel St.', 150, 'East', 'West'),  # Entry to iSchool
@@ -305,18 +206,18 @@ def main():
         ('Armory & Wright', 'to Main Library on Armory', 'S. Wright St.', 0, 'South', 'North'),  # Entry to Main Library on Armory
         ('Armory & Wright', 'to Gregory Hall on Wright', 'E. Armory Ave.', 0, 'East', 'West'),  # Entry to Gregory Hall on Wright
         ('Gregory & Goodwin', 'to Edward R. Madigan Lab on Gregory', 'W. Goodwin Ave.', 0, 'South', 'North')  # Entry to Edward Lab from North
-    ]
+    ],
 
-    MainQuadPaths = [
+    "MainQuadPaths" : [
         ('to Illini Union on Main Quad', 'Main Quad', 'Main Quad', 180),
         ('to Henry Administration Building on Main Quad', 'Main Quad', 'Main Quad', 105),
         ('to English Building on Main Quad', 'Main Quad', 'Main Quad', 55),
         ('to Lincoln Hall on Main Quad', 'Main Quad', 'Main Quad', 105),
         ('to Davenport Hall on Main Quad', 'Main Quad', 'Main Quad', 90),
         ('to Foreign Language Building on Main Quad', 'Main Quad', 'Main Quad', 140)
-    ]
+    ],
 
-    EntryPaths = [  # undirected path - name of the entry to building, mail code of the building, distance
+    "EntryPaths" : [  # undirected path - name of the entry to building, mail code of the building, distance
         ('to School of Information Sciences on Daniel', 493, 15),
         ('to UI Ice Arena on Armory', 525, 10),
         ('to Armory on Armory', 528, 40),
@@ -348,24 +249,4 @@ def main():
         ('to Animal Sciences Lab on Gregory', 630, 10),
         ('to Edward R. Madigan Lab on Gregory', 51, 25)
     ]
-
-
-    M.add_buildings(Buildings)
-    M.add_intersections(Intersections)
-    M.add_entries(Entries)
-
-    M.add_diEdges(DiEdges)
-    M.add_undiEdges(UndiEdges)
-    M.add_entryPaths(EntryPaths)
-    M.add_MQPaths(MainQuadPaths)
-    #M.print_buildings()
-
-    #M.cal_path(384,368)
-    #M.cal_path(718,312)
-    #M.cal_path(493,525)  # now correct direction
-    M.cal_path(493,384)
-    M.cal_path(522,51)
-    M.cal_path(312, 51)
-
-if __name__ == "__main__":
-	main()
+}
