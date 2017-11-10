@@ -81,7 +81,7 @@ def Input_check_for_dummies(main_menu: int, decision = 0) -> str:
 		question_str = "Enter your Choice: " # guide for users in different modes
 	else:
 		choices = [str(n) for n in range(1, len(info.Buildings) + 2)]
-		keyword = ["Choose your 'STARTING' building mail code: ", "Choose your 'DESTINATION' building mail code: "]
+		keyword = ["Choose your 'STARTING' building No.: ", "Choose your 'DESTINATION' building No.: "]
 		question_str = keyword[decision]
 
 	user_input = input(question_str)

@@ -111,9 +111,7 @@ def main():
     M.add_MQPaths(info.MainQuadPaths)
     M.print_buildings()
 
-    #M.cal_path(384,368)
-    #M.cal_path(718,312)
-    #M.cal_path(493,525)  # now correct direction
+
     M.cal_path(493,384)
     M.cal_path(522,51)
     M.cal_path(312, 51)
