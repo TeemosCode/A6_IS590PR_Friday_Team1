@@ -1,6 +1,5 @@
 import networkx as nx
 
-
 class Map():
     def __init__(self):
         self.G = nx.DiGraph()  # directed graph
@@ -75,18 +74,26 @@ class Map():
         else:
             print('\033[1m' + 'Travel from ' + Start + ' to ' + End + ':' + '\033[0m')
             direction=''
+            intoBldflag=0
             for i in range(1, len(p)-2):
-                if direction != self.G[p[i]][p[i + 1]]['dir']:
-                    if i==1:
-                        print("Starting on ",end="")
-                    else:
-                        print("At ",end="")
-                    print(self.G[p[i]][p[i + 1]]['name'] ,end="")
-                    if self.G[p[i]][p[i + 1]]['dir']=='NA':
-                        print(" go through the path on the lawn")
-                    else:
-                        print(" turn " + self.G[p[i]][p[i + 1]]['dir'])
-                    direction = self.G[p[i]][p[i + 1]]['dir']
+                try:
+                    if direction != self.G[p[i]][p[i + 1]]['dir']:
+                        if i==1:
+                            print("Starting on ",end="")
+                        else:
+                            print("At ",end="")
+                        print(self.G[p[i]][p[i + 1]]['name'] ,end="")
+                        if self.G[p[i]][p[i + 1]]['dir']=='NA':
+                            print(" go through the path on the lawn")
+                        else:
+                            print(" turn " + self.G[p[i]][p[i + 1]]['dir'])
+                        direction = self.G[p[i]][p[i + 1]]['dir']
+                except KeyError:
+                    if intoBldflag==0:
+                        print("Go through the",self.G.node[p[i+1]]['name'])
+                        intoBldflag+=1
+                    elif intoBldflag==1:
+                        intoBldflag=0
             print("Proceed until you arrive at " + End)
 
 
@@ -353,8 +360,11 @@ def main():
     M.add_MQPaths(MainQuadPaths)
     #M.print_buildings()
 
-    M.cal_path(384,368)
-    M.cal_path(718,312)
-    M.cal_path(493,525)  # now correct direction
+    #M.cal_path(384,368)
+    #M.cal_path(718,312)
+    #M.cal_path(493,525)  # now correct direction
+    M.cal_path(493,384)
+    M.cal_path(522,51)
+    M.cal_path(312, 51)
 
 main()
