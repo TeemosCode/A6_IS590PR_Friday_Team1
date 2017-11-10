@@ -98,7 +98,7 @@ class Map():
             print("Proceed until you arrive at " + End)
 
 
-def main():
+if __name__ == "__main__":
     M = Map()
 
     M.add_buildings(info.Buildings)
@@ -115,6 +115,3 @@ def main():
     M.cal_path(493,384)
     M.cal_path(522,51)
     M.cal_path(312, 51)
-
-if __name__ == "__main__":
-	main()

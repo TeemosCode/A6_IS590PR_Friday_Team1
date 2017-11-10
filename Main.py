@@ -143,10 +143,7 @@ def naviGrapher_funcs(user_choice: str, main_menu: int) -> int:
 
 	return main_menu
 
-def main():
-	"""
-	Main Fucntion to run the whole program
-	"""
+if __name__ == "__main__":
 	main_menu = 1
 	while True:
 		# prints our corresponding menu
@@ -162,8 +159,6 @@ def main():
 		main_menu = naviGrapher_funcs(user_input, main_menu)
 
 
-if __name__ == "__main__":
-	main()
 
 
 
