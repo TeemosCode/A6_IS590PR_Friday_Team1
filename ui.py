@@ -1,7 +1,7 @@
-#from Map_Info import Info as mpi # a dictionary data structure
+#from Map_Info import Info as info # a dictionary data structure
 
 ## Just paste and use it as module input would be easier
-import MapInfo as mpi
+import MapInfo as info
 import Main as Map
 
 
@@ -9,28 +9,28 @@ navi = Map.Map() # navigator that contains our Graph object, 'G'.
 
 # different approach
 # ##########  intialize our map graph ######
-# navi.add_buildings(mpi["Buildings"]) # add all building nodes
-# navi.add_intersections(mpi["Intersections"]) # add all intersections
-# navi.add_entries(mpi["Entries"]) # add all entries
-# navi.add_diEdges(mpi["DiEdges"]) # Add all directed edges
-# navi.add_undiEdges(mpi["UndiEdges"]) # Add all undirected edges
-# navi.add_MQPaths(mpi["MainQuadPaths"]) # Add all paths to main quad
-# navi.add_entryPaths(mpi["EntryPaths"]) # Add all entry paths
+# navi.add_buildings(info["Buildings"]) # add all building nodes
+# navi.add_intersections(info["Intersections"]) # add all intersections
+# navi.add_entries(info["Entries"]) # add all entries
+# navi.add_diEdges(info["DiEdges"]) # Add all directed edges
+# navi.add_undiEdges(info["UndiEdges"]) # Add all undirected edges
+# navi.add_MQPaths(info["MainQuadPaths"]) # Add all paths to main quad
+# navi.add_entryPaths(info["EntryPaths"]) # Add all entry paths
 
 
 ##########  intialize our map graph ######
-navi.add_buildings(mpi.Buildings) # add all building nodes
-navi.add_intersections(mpi.Intersections) # add all intersections
-navi.add_entries(mpi.Entries) # add all entries
-navi.add_diEdges(mpi.DiEdges) # Add all directed edges
-navi.add_undiEdges(mpi.UndiEdges) # Add all undirected edges
-navi.add_MQPaths(mpi.MainQuadPaths) # Add all paths to main quad
-navi.add_entryPaths(mpi.EntryPaths) # Add all entry paths
+navi.add_buildings(info.Buildings) # add all building nodes
+navi.add_intersections(info.Intersections) # add all intersections
+navi.add_entries(info.Entries) # add all entries
+navi.add_diEdges(info.DiEdges) # Add all directed edges
+navi.add_undiEdges(info.UndiEdges) # Add all undirected edges
+navi.add_MQPaths(info.MainQuadPaths) # Add all paths to main quad
+navi.add_entryPaths(info.EntryPaths) # Add all entry paths
 
 
 
 # The choice for connecting userinput to corresponding data for calculation of smallest path. Grab the mail codes for the path function via this dictionary
-choice_mail_building = { str(choicenum) : (buildingInfo[0], buildingInfo[1], buildingInfo[2]) for choicenum, buildingInfo in zip( range(1, len(mpi.Buildings) + 1 ) , mpi.Buildings)}
+choice_mail_building = { str(choicenum) : (buildingInfo[0], buildingInfo[1], buildingInfo[2]) for choicenum, buildingInfo in zip( range(1, len(info.Buildings) + 1 ) , info.Buildings)}
 
 
 #print(choice_mail_building)
@@ -80,10 +80,10 @@ def Input_check_for_dummies(main_menu: int, decision = 0) -> str:
 	# check to see which menu is currently on display to change the valid choices coreespondingly
 	if main_menu:
 		choices = [str(n) for n in range(1,6)]
-		question_str = "Enter your Choice: ==>  " # guide for users in different modes
+		question_str = "Enter your Choice: " # guide for users in different modes
 	else:
-		choices = [str(n) for n in range(1, len(mpi.Buildings) + 2)]
-		keyword = ["Choose your 'STARTING' position: ==> ", "Choose your 'DESTINATION': ==> "]
+		choices = [str(n) for n in range(1, len(info.Buildings) + 2)]
+		keyword = ["Choose your 'STARTING' building mail code: ", "Choose your 'DESTINATION' building mail code: "]
 		question_str = keyword[decision]
 
 	user_input = input(question_str)
