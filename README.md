@@ -1,7 +1,7 @@
 # A6_IS590PR_Friday_Team1
 IS590PR Fall2017 Assignment6 Network Graphs &amp; OO Design
 
-### How to use:
+### How to use
 Run Main.py and follow the instructions in the user interface.  
 Use Map.png for map reference.
 
