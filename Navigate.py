@@ -1,5 +1,7 @@
 import networkx as nx
 import MapInfo as info
+
+
 class Map():
     def __init__(self):
         self.G = nx.DiGraph()  # directed graph
@@ -12,7 +14,7 @@ class Map():
         for x in L:
             self.add_building(x[0], x[1], x[2])
 
-    def add_intersection(self, Name: str): # add a intersection as a node to the graph
+    def add_intersection(self, Name: str):  # add a intersection as a node to the graph
         self.G.add_node(Name, flag=1)  # flag=1 means this node is an intersection
 
     def add_intersections(self, L: list):  # add a list of intersections
@@ -26,7 +28,8 @@ class Map():
         for x in L:
             self.add_entry(x)
 
-    def add_diEdge(self, From: str, To: str, Name: str, Distance: int, Direction: str):  # add directed edge to the graph
+    def add_diEdge(self, From: str, To: str, Name: str, Distance: int,
+                   Direction: str):  # add directed edge to the graph
         self.G.add_edge(From, To, name=Name, dis=Distance, dir=Direction)
 
     def add_diEdges(self, L: list):  # add a list of directed edges
@@ -42,7 +45,7 @@ class Map():
         for x in L:
             self.add_undiEdge(x[0], x[1], x[2], x[3], x[4], x[5])
 
-    def add_MQPath(self,From: str, To: str, Name: str, Distance: int):  # add path in the main quad
+    def add_MQPath(self, From: str, To: str, Name: str, Distance: int):  # add path in the main quad
         self.G.add_edge(From, To, name=Name, dis=Distance, dir='NA')
         self.G.add_edge(To, From, name=Name, dis=Distance, dir='NA')
 
@@ -61,11 +64,11 @@ class Map():
     def print_buildings(self):  # print all buildings
         tmp = list(filter(lambda x: x[1]['flag'] == 0, self.G.nodes(data=True)))  # all buildings
         tmp.sort(key=lambda x: x[1]['name'])
-        print('\033[1m' + 'NAME\t MAIL CODE' + '\033[0m')  # bold this title
+        print('\033[1m' + str("NAME").ljust(40) + '\tMAIL CODE' + '\033[0m')  # bold this title
         for x in tmp:
-            print(x[1]['name'], '\t', x[0])
+            print(str(x[1]['name']).ljust(40) + '\t', str(x[0]).rjust(8))
 
-    def cal_path(self, From: int, To: int):
+    def cal_path(self, From: int, To: int):  # calculate the shortest path
         Start = self.G.node[From]['name']
         End = self.G.node[To]['name']
         try:
@@ -74,27 +77,27 @@ class Map():
             print("There is no path from", Start, "to", End)
         else:
             print('\033[1m' + 'Travel from ' + Start + ' to ' + End + ':' + '\033[0m')
-            direction=''
-            intoBldflag=0
-            for i in range(1, len(p)-2):
+            direction = ''
+            intoBldflag = 0  # flag to record whether it is in the building
+            for i in range(1, len(p) - 2):
                 try:
                     if direction != self.G[p[i]][p[i + 1]]['dir']:
-                        if i==1:
-                            print("Starting on ",end="")
+                        if i == 1:
+                            print("Starting on ", end="")
                         else:
-                            print("At ",end="")
-                        print(self.G[p[i]][p[i + 1]]['name'] ,end="")
-                        if self.G[p[i]][p[i + 1]]['dir']=='NA':
+                            print("At ", end="")
+                        print(self.G[p[i]][p[i + 1]]['name'], end="")
+                        if self.G[p[i]][p[i + 1]]['dir'] == 'NA':
                             print(" go through the path on the lawn")
                         else:
                             print(" turn " + self.G[p[i]][p[i + 1]]['dir'])
                         direction = self.G[p[i]][p[i + 1]]['dir']
                 except KeyError:
-                    if intoBldflag==0:
-                        print("Go through the",self.G.node[p[i+1]]['name'])
-                        intoBldflag+=1
-                    elif intoBldflag==1:
-                        intoBldflag=0
+                    if intoBldflag == 0:
+                        print("Go through the", self.G.node[p[i + 1]]['name'])
+                        intoBldflag += 1
+                    elif intoBldflag == 1:
+                        intoBldflag = 0
             print("Proceed until you arrive at " + End)
 
 
@@ -111,7 +114,6 @@ if __name__ == "__main__":
     M.add_MQPaths(info.MainQuadPaths)
     M.print_buildings()
 
-
-    M.cal_path(493,384)
-    M.cal_path(522,51)
+    M.cal_path(493, 384)
+    M.cal_path(522, 51)
     M.cal_path(312, 51)
