@@ -60,6 +60,7 @@ class Map():
 
     def print_buildings(self):  # print all buildings
         tmp = list(filter(lambda x: x[1]['flag'] == 0, self.G.nodes(data=True)))  # all buildings
+        tmp.sort(key=lambda x: x[1]['name'])
         print('\033[1m' + 'NAME\t MAIL CODE' + '\033[0m')  # bold this title
         for x in tmp:
             print(x[1]['name'], '\t', x[0])
@@ -358,7 +359,7 @@ def main():
     M.add_undiEdges(UndiEdges)
     M.add_entryPaths(EntryPaths)
     M.add_MQPaths(MainQuadPaths)
-    #M.print_buildings()
+    M.print_buildings()
 
     #M.cal_path(384,368)
     #M.cal_path(718,312)
