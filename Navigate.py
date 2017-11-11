@@ -262,6 +262,7 @@ class Map():
 
     def __init__(self):
         self.G = nx.DiGraph()  # directed graph
+        self.Buildings.sort()
         self.add_buildings(self.Buildings)
         self.add_intersections(self.Intersections)
         self.add_entries(self.Entries)
@@ -328,7 +329,6 @@ class Map():
 
     def print_buildings(self):  # print all buildings
         tmp = list(filter(lambda x: x[1]['flag'] == 0, self.G.nodes(data=True)))  # all buildings
-        tmp.sort(key=lambda x: x[1]['name'])
         print('\033[1m' + str("NAME").ljust(40) + '\tMAIL CODE' + '\033[0m')  # bold this title
         for x in tmp:
             print(str(x[1]['name']).ljust(40) + '\t', str(x[0]).rjust(8))

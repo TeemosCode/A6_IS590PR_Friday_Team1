@@ -6,8 +6,12 @@ import Navigate as Nav
 
 class UI():
     navi = Nav.Map()  # navigator that contains our Graph object, 'G'.
+    # The choice for connecting userinput to corresponding data for calculation of smallest path. Grab the mail codes for the path function via this dictionary
+    choice_mail_building = {str(choicenum): (buildingInfo[0], buildingInfo[1], buildingInfo[2]) for
+                            choicenum, buildingInfo
+                            in zip(range(1, len(navi.Buildings) + 1), navi.Buildings)}
 
-    def menu(self, main_menu, choice_mail_building):
+    def menu(self, main_menu):
         """
         Shows menu
 
@@ -33,10 +37,10 @@ class UI():
     =========================== Choice : (Buildings, Address, Mailcode) ============================
             """)
             # Scalability for menu function. If there were more nodes added into the MapInfo.py, it can be uploaded accordingly without hardcoding in the first place.
-            for numChoice in range(1, len(choice_mail_building) + 1):
-                print("%2d: %s" % (numChoice, choice_mail_building[str(numChoice)]))
+            for numChoice in range(1, len(self.choice_mail_building) + 1):
+                print("%2d: %s" % (numChoice, self.choice_mail_building[str(numChoice)]))
 
-            print('%2d: \033[1mEnd Navigation Mode\033[0m\n' % (len(choice_mail_building) + 1))
+            print('%2d: \033[1mEnd Navigation Mode\033[0m\n' % (len(self.choice_mail_building) + 1))
 
     def Input_check_for_dummies(self, main_menu: int, decision=0) -> str:
         """
@@ -65,7 +69,7 @@ class UI():
             user_input = input(question_str)
         return user_input
 
-    def naviGrapher_funcs(self, user_choice: str, main_menu: int, choice_mail_building) -> int:
+    def naviGrapher_funcs(self, user_choice: str, main_menu: int) -> int:
         """
         The main action mapping fucntion. Takes valid user input and matches the corresponding function to for particular action.
 
@@ -77,23 +81,23 @@ class UI():
             main_menu = 0
             # navigation_mode, if user chooses for navigation mode, Navigavtion program
             while True:
-                self.menu(main_menu, choice_mail_building)
+                self.menu(main_menu)
                 user_Start = self.Input_check_for_dummies(main_menu)
                 if user_Start == str(len(
-                        choice_mail_building) + 1):  # Generalize the ending choice, make it scalable wihtout hardcoding
+                        self.choice_mail_building) + 1):  # Generalize the ending choice, make it scalable wihtout hardcoding
                     print("Aborting Navigation ....\n")
                     main_menu = 1
                     break
-                start = choice_mail_building[user_Start][
+                start = self.choice_mail_building[user_Start][
                     2]  # get the mail code in our dictionary "choice_mail_building" tuple value with index 2
 
                 user_Destination = self.Input_check_for_dummies(main_menu,
                                                                 1)  # Changes the prompt string with the second parameter
-                if user_Destination == str(len(choice_mail_building) + 1):
+                if user_Destination == str(len(self.choice_mail_building) + 1):
                     print("Aborting Navigation ....\n")
                     main_menu = 1
                     break
-                end = choice_mail_building[user_Destination][
+                end = self.choice_mail_building[user_Destination][
                     2]  # get the mail code in our dictionary "choice_mail_building" tuple value with index 2
 
                 print("\n")
@@ -109,15 +113,44 @@ class UI():
 
         return main_menu
 
-    def run(self):
-        main_menu = 1
-        # The choice for connecting userinput to corresponding data for calculation of smallest path. Grab the mail codes for the path function via this dictionary
-        choice_mail_building = {str(choicenum): (buildingInfo[0], buildingInfo[1], buildingInfo[2]) for
-                                choicenum, buildingInfo
-                                in zip(range(1, len(self.navi.Buildings) + 1), self.navi.Buildings)}
+    def test_all_cases(self):
+        """
+        Function that runs through all options of valid inputs starting and ending positions of buildings for testing if all nodes and paths
+        are correctly implemented.
+
+        If it there are no errors, it would keep run through all compositions of starting and ending building positions and print "Passed TESTS".
+        Else it prints out the error and shows which two choices of buildings caused the error.
+        """
+        main_menu = 0
         while True:
             # prints our corresponding menu
-            self.menu(main_menu, choice_mail_building)
+            self.menu(main_menu)
+            # get and validate user inputs
+
+            # Testing all cases of travels between all buildings, if theres is no error, prints "Passed TESTS"
+            try:
+                for strtchoice in range(0, len(self.navi.Buildings) ):
+                    #start_choice = str(strtchoice)
+                    start_choice = self.navi.Buildings[strtchoice][2]
+                    for endchoice in range(0, len(self.navi.Buildings)):
+                        #end_choice = str(endchoice)
+                        end_choice = self.navi.Buildings[endchoice][2]
+
+                        # The navigation function to calculate the shortest paths in the graph function in Navigate.py
+                        self.navi.cal_path(start_choice, end_choice)
+            except:
+                print("There occurs an error")
+            else:
+                # If there are no errors that disrupt the program, we pass the test
+                print("Passed tests without error")
+                break
+
+    def run(self):
+        main_menu = 1
+
+        while True:
+            # prints our corresponding menu
+            self.menu(main_menu)
             # get and validate user inputs
             user_input = self.Input_check_for_dummies(main_menu)
 
@@ -126,9 +159,10 @@ class UI():
                 print("Thank you for using NaviGrapher. GoodBye~!")
                 break
             # keep track of what menu to display
-            main_menu = self.naviGrapher_funcs(user_input, main_menu, choice_mail_building)
+            main_menu = self.naviGrapher_funcs(user_input, main_menu)
 
 
 if __name__ == "__main__":
     ui = UI()
+    #ui.test_all_cases()
     ui.run()
