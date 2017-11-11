@@ -103,29 +103,34 @@ def naviGrapher_funcs(user_choice: str, main_menu: int) -> int:
     # If user chooses for Navigation, change the menu and switch to navigation mode.
     if main_menu and user_choice == "2":
         main_menu = 0
+
         # navigation_mode, if user chooses for navigation mode, Navigavtion program
         while True:
             menu(main_menu)
             user_Start = Input_check_for_dummies(main_menu)
-            if user_Start == str(len(
-                    choice_mail_building) + 1):  # Generalize the ending choice, make it scalable wihtout hardcoding
+
+            # Generalize the ending choice, make it scalable wihtout hardcoding
+            if user_Start == str(len(choice_mail_building) + 1):  
                 print("Aborting Navigation ....\n")
                 main_menu = 1
                 break
             start = choice_mail_building[user_Start][
                 2]  # get the mail code in our dictionary "choice_mail_building" tuple value with index 2
 
-            user_Destination = Input_check_for_dummies(main_menu,
-                                                       1)  # Changes the prompt string with the second parameter
+            # Changes the prompt string with the second parameter
+            user_Destination = Input_check_for_dummies(main_menu, 1)  
             if user_Destination == str(len(choice_mail_building) + 1):
                 print("Aborting Navigation ....\n")
                 main_menu = 1
                 break
-            end = choice_mail_building[user_Destination][
-                2]  # get the mail code in our dictionary "choice_mail_building" tuple value with index 2
+
+            # get the mail code in our dictionary "choice_mail_building" tuple value with index 2
+            end = choice_mail_building[user_Destination][2]  
 
             print("\n")
             print('=====================Starting Navigation=======================')
+
+            # The navigation function to calculate the shortest paths in the graph function in Navigate.py
             navi.cal_path(start, end)
 
             print("======================End Of Navigation========================")
@@ -136,6 +141,38 @@ def naviGrapher_funcs(user_choice: str, main_menu: int) -> int:
         func_dict_main[user_choice]()
 
     return main_menu
+
+def test_all_cases():
+    """
+    Function that runs through all options of valid inputs starting and ending positions of buildings for testing if all nodes and paths
+    are correctly implemented.
+    
+    If it there are no errors, it would keep run through all compositions of starting and ending building positions and print "Passed TESTS".
+    Else it prints out the error and shows which two choices of buildings caused the error.
+    """
+    main_menu = 0
+    while True:
+        # prints our corresponding menu
+        menu(main_menu)
+        # get and validate user inputs
+
+        # Testing all cases of travels between all buildings, if theres is no error, prints "Passed TESTS"
+        for strtchoice in range(1, len(info.Buildings) + 1):
+            start_choice = str(strtchoice)
+            for endchoice in range(1, len(info.Buildings) + 1):
+                end_choice = str(endchoice)
+
+
+                # The navigation function to calculate the shortest paths in the graph function in Navigate.py
+                navi.cal_path(start_choice, end_choice)
+
+
+        # If there are no errors that disrupt the program, we pass the test
+        print("Passed TESTS")
+        
+        break
+
+
 
 
 if __name__ == "__main__":
@@ -152,3 +189,6 @@ if __name__ == "__main__":
             break
         # keep track of what menu to display
         main_menu = naviGrapher_funcs(user_input, main_menu)
+
+    # # Run test case
+    test_all_cases()  # ----> Past all tests, there is nothing wrong with the nodes, paths and entries in the graph object
