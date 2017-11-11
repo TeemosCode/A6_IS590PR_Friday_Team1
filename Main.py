@@ -21,9 +21,10 @@ class UI():
             print("""
  =========================== Welcome to NaviGrapher ============================
  -------- Please Enter the "number" of choices below to use NaviGrapher --------
- (1). List All Buildings
+ (1). List all buildings
  (2). Navigate! 
- (3). Exit/Quit 
+ (3). Run all navigation tests
+ (4). Exit 
 			 """)
 
         if not main_menu:
@@ -52,7 +53,7 @@ class UI():
         """
         # check to see which menu is currently on display to change the valid choices coreespondingly
         if main_menu:
-            choices = [str(n) for n in range(1, 6)]
+            choices = [str(n) for n in range(1, 5)]
             question_str = "Enter your Choice: "  # guide for users in different modes
         else:
             choices = [str(n) for n in range(1, len(self.navi.Buildings) + 2)]
@@ -108,6 +109,8 @@ class UI():
                 print("\n")
 
         # Functions and actions matching the main menu choices
+        elif main_menu and user_choice=='3':
+            self.test_all_cases()
         elif main_menu:
             self.navi.print_buildings()
 
@@ -155,7 +158,7 @@ class UI():
             user_input = self.Input_check_for_dummies(main_menu)
 
             # When user chooses to end the program
-            if user_input == "3" and main_menu:
+            if user_input == "4" and main_menu:
                 print("Thank you for using NaviGrapher. GoodBye~!")
                 break
             # keep track of what menu to display
