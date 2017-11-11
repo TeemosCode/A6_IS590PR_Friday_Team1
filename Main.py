@@ -15,9 +15,12 @@ navi.add_undiEdges(info.UndiEdges)  # Add all undirected edges
 navi.add_MQPaths(info.MainQuadPaths)  # Add all paths to main quad
 navi.add_entryPaths(info.EntryPaths)  # Add all entry paths
 
+# Sort buildings Alphabetically
+Buildings = sorted(info.Buildings)
+
 # The choice for connecting userinput to corresponding data for calculation of smallest path. Grab the mail codes for the path function via this dictionary
 choice_mail_building = {str(choicenum): (buildingInfo[0], buildingInfo[1], buildingInfo[2]) for choicenum, buildingInfo
-                        in zip(range(1, len(info.Buildings) + 1), info.Buildings)}
+                        in zip(range(1, len(info.Buildings) + 1), Buildings)}
 
 
 # print(choice_mail_building)
@@ -52,7 +55,7 @@ def menu(main_menu):
         for numChoice in range(1, len(choice_mail_building) + 1):
             print("%2d: %s" % (numChoice, choice_mail_building[str(numChoice)]))
 
-        print('%2d: \033[1mEnd Navigation Mode\033[0m\n' % (len(choice_mail_building) + 1))
+        print('\033[1m%2d: End Navigation Mode\033[0m\n' % (len(choice_mail_building) + 1))
 
 
 def Input_check_for_dummies(main_menu: int, decision=0) -> str:
@@ -65,7 +68,7 @@ def Input_check_for_dummies(main_menu: int, decision=0) -> str:
     """
     # check to see which menu is currently on display to change the valid choices coreespondingly
     if main_menu:
-        choices = [str(n) for n in range(1, 6)]
+        choices = [str(n) for n in range(1, 4)]
         question_str = "Enter your Choice: "  # guide for users in different modes
     else:
         choices = [str(n) for n in range(1, len(info.Buildings) + 2)]
@@ -87,7 +90,6 @@ def Input_check_for_dummies(main_menu: int, decision=0) -> str:
 # Dictionary that maps user choices to corresponding functions in the graph object
 func_dict_main = {
     "1": navi.print_buildings
-    # Currently use myprint test function to keep the program from crashing before the functions are finished and tested!!####
 }
 
 
