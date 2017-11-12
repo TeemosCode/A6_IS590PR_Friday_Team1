@@ -7,6 +7,6 @@ Use Map.png for map reference.
 
 ### File Explaination
 Main.py -- UI part and entrance of this program  
-**Map.png -- Map of our prgram for reference.**  
+**Map.png -- Map of our program for reference.**  
 Navigate.py -- Map design & Navigation  
 **Report.pdf -- Team member contribution & Examples for user**
