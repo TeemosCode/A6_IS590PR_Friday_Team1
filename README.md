@@ -8,6 +8,5 @@ Use Map.png for map reference.
 ### File Explaination
 Main.py -- UI part and entrance of this program  
 **Map.png -- Map of our prgram for reference.**  
-MapInfo.py -- Data storage of all kinds of nodes and edges  
 Navigate.py -- Map design & Navigation  
 **Report.pdf -- Team member contribution & Examples for user**
