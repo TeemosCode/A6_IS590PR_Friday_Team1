@@ -1,10 +1,32 @@
-# from Map_Info import Info as info # a dictionary data structure
+"""
+The main excution file of the NaviGrapher program. 
 
-## Just paste and use it as module input would be easier
+It imports the Map class from the Navigate.py which contains the map informations and methods.
+This module also contains the user interface class UI and serves as an interface for interacting
+with user inputs and outputing the calculation results to the console/terminal/command line.
+"""
 import Navigate as Nav
 
 
 class UI():
+    """
+    The user interface class.
+    It instantiates the Map class object as the variable 'navi' and interacts with the users based on their 
+    inputs and the data and methods of the 'navi' Map class object.
+    
+    Attributes:
+        navi: The instance of the Map Class containing methods and data of the map
+        choice_mail_building: A dictionary that associates its choice numbers with building information
+
+    Methods:
+        menu: Outputs menu to the terminal
+        Input_check_for_dummies: Function that validats user inputs to make sure of the robustness of the program.
+        naviGrapher_funcs: Function for user navigation.
+        test_all_cases: Test if there are any unseen errors in the navigation function.
+        run: Start the program.
+    """
+
+
     navi = Nav.Map()  # navigator that contains our Graph object, 'G'.
     # The choice for connecting userinput to corresponding data for calculation of smallest path. Grab the mail codes for the path function via this dictionary
     choice_mail_building = {str(choicenum): (buildingInfo[0], buildingInfo[1], buildingInfo[2]) for
@@ -145,7 +167,7 @@ class UI():
                 print("There occurs an error")
             else:
                 # If there are no errors that disrupt the program, we pass the test
-                print("Passed tests without error")
+                print("\n\033[1mPassed tests without error\033[0m")
                 break
 
     def run(self):

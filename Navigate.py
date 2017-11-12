@@ -1,7 +1,36 @@
+"""
+This module contains the Map class with attributes of the map data and methods to calculate the shortest path to navigate
+through different buildiongs.
+
+It imports networkx to implement a map as a networkx Graph.
+This module serves as the fundation of the program as it defines the details, logic and functions of the map.
+It would be imported into the user interface - Main.py for it to access the data and methods contained in the Map class. 
+"""
 import networkx as nx
 
-
 class Map():
+    """
+    The Map class that contains data and functions of the map within the abstract networkx Graph object.
+    It defines the methods that create the map as an networkx Graph as it wraps around the networkx methods to simplify the task
+    of the Graph creation.
+
+    Attributes:
+        Buildings: List of buildings data in the form of tuples.
+        Intersections: List of intersection data in the form of Strings.
+        Entries: List of entries into the buildings in the form of String.
+        DiEdges: List of Directed Edges (One Way paths) in the form of tuples.
+        UndiEdges: List of Undirected Edges (Two Way paths) in the form of tuples.
+        MainQuadPaths: List of Pedestrian walk paths through the Mainquad in the form of tuples.
+        EntryPaths: List of entries to the buildings (Considered as Two Way Paths) in the form of tuples.
+
+    Methods:
+        add_* : Add the information (Building Nodes, Entries Nodes, Intersection Nodes, Unidirected and Directed Edges) into the networkx Graph.
+        print_buildings: Pretty print out all the Buildings and their Mail codes in the console/Command Line/Termianl.
+        cal_path: The main navigation function. Takes in two parameters of building mail codes indicating the start and destination of the navigation and 
+                    uses networkx's dijkstra_path method to calculate the shortest navigation path and print out the details of navigation.
+    """
+
+
     Buildings = [  # information of buildings - name, address, mail code
         ('School of Information Sciences', '501 E. Daniel St.', 493),
         ('Illini Union BookStore', '807 S. Wright St.', 312),
@@ -261,6 +290,7 @@ class Map():
     ]
 
     def __init__(self):
+        # Adding the Nodes and Edges into the Directed Graph
         self.G = nx.DiGraph()  # directed graph
         self.Buildings.sort()
         self.add_buildings(self.Buildings)
